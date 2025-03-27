@@ -2,7 +2,7 @@
 
 The Python service of the "Course Helper" app serves to process requests of GenAI nature. It provides API endpoints using FastAPI, and once an endpoint is requested, each endpoint sends a task to be worked on to a task broker, in this case Celery.
 
-Example usages of the API endpoints can be found in the "example_api_usages.md" file.
+Example usages of the API endpoints can be found in the "example_api_usages.md" file. KEEP IN MIND: right now it only works through Google Studio, so provide an API key from "https://aistudio.google.com/". 
 
 ## How to Run the Python Service
 
