@@ -46,6 +46,7 @@ curl -X 'POST' \
 }'
 "
 
+<<<<<<< HEAD
 In the main object, you can now also specify a "collection_name" parameter. Collection name can be recieved by uploading a PDF file, which after the processing finishes (4-5 minutes), the task will return a collection name. Afterwards, when a user specifies a question about the PDF in the conversation history, an answer will be provided by doing a similarity search for the collection name, which is the PDF file chunked and summarised, in the Qdrant vector database.
 
 "
@@ -86,6 +87,8 @@ curl -X 'POST' \
 }
 "
 
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 #### Response Body for "/api/process_ai":
 
 "
@@ -148,6 +151,7 @@ As you can see here, the same object as the request is sent back, with the modif
 }
 "
 
+<<<<<<< HEAD
 Example response when a collection name is specified (don't look at 'tool_calls" and 'tool_results', although tool calls are used they're not implemented properly in conversation history yet):
 
 "
@@ -203,10 +207,13 @@ Example response when a collection name is specified (don't look at 'tool_calls"
 }
 "
 
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 ## /api/upload
 
 #### Example cURL to "/api/upload":
 
+<<<<<<< HEAD
 If a PDF file is uploaded, now an API key will be needed. For now, it only works with a Google Studio API key. The API key is needed because we are using an embedding model and performing summarisations using Google Studio. KEEP IN MIND: Depending on the size of the PDF file, processing could take up to 4-5 minutes depending on how strong your PC/Laptop is!
 
 Example CURL for PDF file:
@@ -221,6 +228,8 @@ curl -X 'POST' \
 
 Other example cURLs:
 
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 "
 curl -X 'POST' \
   'http://localhost:8000/api/upload/' \
@@ -249,6 +258,7 @@ curl -X POST ^
 }
 "
 
+<<<<<<< HEAD
 Response body if it's a PDF file:
 
 {
@@ -258,6 +268,8 @@ Response body if it's a PDF file:
   "parse_summarise_ingest_task_id": "229517e2-8ed6-4a03-be9e-635ce8d6f4f9"
 }
 
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 #### Response Body from "/api/task-status/{task_id}" for "/api/upload":
 
 This provides the path to the uploaded file within the project.
@@ -274,6 +286,7 @@ This provides the path to the uploaded file within the project.
 }
 "
 
+<<<<<<< HEAD
 If it's a PDF file upload, task ID for "parse_summarise_ingest_task_id":
 
 "
@@ -286,6 +299,8 @@ If it's a PDF file upload, task ID for "parse_summarise_ingest_task_id":
 }
 "
 
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 ## /api/get_video_uri
 
 #### Example cURL to "/api/get_video_uri":

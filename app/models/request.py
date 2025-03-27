@@ -13,9 +13,12 @@ class AIRequest(BaseModel):
     )
     conversation_history: Optional[ConversationHistory] = None  # Optional past messages
     api_key: Optional[str] = Field(default=None, example="1234567890")  # API key for authentication
+<<<<<<< HEAD
     collection_name: Optional[str] = Field(
         default=None, example="my_collection"
     )  # Name of the collection in the vector database
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 
 class UriRequest(BaseModel):
     video: Video = None

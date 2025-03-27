@@ -1,6 +1,7 @@
 from fastapi import FastAPI, APIRouter, UploadFile
 from celery.result import AsyncResult
 from app.models.request import AIRequest
+<<<<<<< HEAD
 from celery_worker import (
     process_ai_request_task,
     upload_file_task,
@@ -11,6 +12,12 @@ import uuid
 from app.models.request import UriRequest
 from app.models.enums import UriProvider
 from typing import Optional
+=======
+from celery_worker import process_ai_request_task, upload_file_task, create_video_uri_using_gemini_task  # Import the registered task, not the function
+import uuid
+from app.models.request import UriRequest
+from app.models.enums import UriProvider
+>>>>>>> 143d6af (Initial Python service commit)
 
 router = APIRouter()
 
@@ -27,16 +34,25 @@ async def get_task_status(task_id: str):
     return {"task_id": task_id, "status": task_result.status, "result": task_result.result}
 
 @router.post("/upload/")
+<<<<<<< HEAD
 async def upload_file(file: UploadFile, api_key: Optional[str] = None):
+=======
+async def upload_file(file: UploadFile):
+>>>>>>> 143d6af (Initial Python service commit)
     """
     Endpoint to handle file uploads
     
     Args:
+<<<<<<< HEAD
 
         file (UploadFile): Uploaded file object
 
         api_key (Optional[str]): API key for summarisation and ingestion in Qdrant vector database (Optional: only for PDF files Google Studio API needed)
         
+=======
+        file (UploadFile): Uploaded file object
+    
+>>>>>>> 143d6af (Initial Python service commit)
     Returns:
         dict: File upload information
     """
@@ -47,6 +63,7 @@ async def upload_file(file: UploadFile, api_key: Optional[str] = None):
     
     # Trigger Celery task with file content
     task = upload_file_task.apply_async(args=[file_id, file.filename, file_content])
+<<<<<<< HEAD
 
     return_obj = {"filename": file.filename, "file_id": file_id, "task_id": task.id}
 
@@ -55,6 +72,10 @@ async def upload_file(file: UploadFile, api_key: Optional[str] = None):
         return_obj["parse_summarise_ingest_task_id"] = parse_summarise_ingest_task.id
     
     return return_obj
+=======
+    
+    return {"filename": file.filename, "file_id": file_id, "task_id": task.id}
+>>>>>>> 143d6af (Initial Python service commit)
 
 @router.post("/get_video_uri")
 async def get_video_uri_route(request: UriRequest):

@@ -1,9 +1,12 @@
 from celery_config import celery_app
 from app.models.request import AIRequest, UriRequest
 from app.services.provider_service import get_ai_response, upload_file_to_gemini
+<<<<<<< HEAD
 from app.services import parser_service, summarisation_service, ingestion_service
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai.embeddings import GoogleGenerativeAIEmbeddings
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 import shutil
 from app.core.config_settings import get_settings
 import os
@@ -13,7 +16,10 @@ from google import genai
 import asyncio
 from app.utils.time_util import convert_seconds_to_minutes
 import time
+<<<<<<< HEAD
 from typing import Optional
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 
 settings = get_settings()
 
@@ -58,6 +64,7 @@ def create_video_uri_using_gemini_task(request_data: dict):
 
     response = upload_file_to_gemini(request)
 
+<<<<<<< HEAD
     return response if isinstance(response, dict) else request.video.model_dump()
 
 @celery_app.task(name = "parse_summarize_ingest_pdf")
@@ -114,3 +121,6 @@ def parse_summarize_ingest_pdf_task(file_id: str, file_name: str, file_content: 
                                         )
     
     return {"qdrant_collection_name": file_id}
+=======
+    return response if isinstance(response, dict) else request.video.model_dump()
+>>>>>>> 143d6af (Initial Python service commit)

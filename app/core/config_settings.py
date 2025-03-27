@@ -3,7 +3,10 @@ from pydantic_settings import BaseSettings
 from typing import Optional, Dict, Any, List
 from functools import lru_cache
 from pydantic import field_validator
+<<<<<<< HEAD
 from qdrant_client import QdrantClient
+=======
+>>>>>>> 143d6af (Initial Python service commit)
 
 
 class Settings(BaseSettings):
@@ -43,9 +46,12 @@ class Settings(BaseSettings):
     REDIS_HOST: str = os.environ.get("REDIS_HOST", "localhost")
     REDIS_PORT: int = os.environ.get("REDIS_PORT", 6379)
     REDIS_DB: int = os.environ.get("REDIS_DB", 0)
+<<<<<<< HEAD
 
     QDRANT_HOST: str = os.environ.get("QDRANT_HOST", "localhost")
     QDRANT_PORT: int = os.environ.get("QDRANT_PORT", 6333)
+=======
+>>>>>>> 143d6af (Initial Python service commit)
     
     # History settings
     MAX_HISTORY_LENGTH: int = 10
