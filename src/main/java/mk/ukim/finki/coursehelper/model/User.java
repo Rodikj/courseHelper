@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-
-
-
 public class User
 {
 
@@ -23,9 +20,8 @@ public class User
     private String email;
 
 
-    public User(String name, String email)
-    {
-        this.name = name;
-        this.email = email;
-    }
+    //JWT auth security or basic encryption?
+    @Column(nullable = false)
+    private String password;
+
 }

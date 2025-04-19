@@ -1,4 +1,7 @@
 package mk.ukim.finki.coursehelper.service;
 
-public interface EmbeddingService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmbeddingService {
 }

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -14,10 +16,24 @@ public class VideoLink
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //user?
-    private Long UserId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    //video link to course relation unclear
+    @OneToOne
+    @JoinColumn(name = "course_id", unique = true)
+    private Course course;
 
-    //...
+    private String yt_id_link;
+
+    private String md5;
+
+    private String file_name;
+
+    private String file_type;
+
+    private LocalDate upload_date;
+
+    private boolean pocessed;
+
 }

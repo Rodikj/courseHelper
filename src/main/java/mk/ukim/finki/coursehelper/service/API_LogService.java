@@ -1,4 +1,7 @@
 package mk.ukim.finki.coursehelper.service;
 
-public interface API_LogService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class API_LogService {
 }

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -15,21 +17,23 @@ public class File
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //user?
-    private Long UserId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
+    @JoinColumn(name = "course_id", unique = true)
     private Course course;
 
-    private String md5; //hash something
+    private String md5;
 
-    private String filename;
+    private String file_name;
 
     private String file_type;
 
-    private String upload_date; // needs to be turned into Date
+    private LocalDate upload_date;
 
-    private String processed; // we shall see
+    private boolean processed;
 
 
 
