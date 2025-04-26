@@ -14,15 +14,7 @@ public class RetrievalResult
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "query_id", nullable = false)
-    private Query query;
-
-    @ManyToOne
-    @JoinColumn(name = "chunk_id", nullable = false)
-    private DocumentChunk documentChunk;
-
-    private double score;
+    // ids , more info
 
     //what does score mean in this instance
 }

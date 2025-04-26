@@ -14,12 +14,10 @@ public class DocumentChunk
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "file_id", nullable = false)
-    private File file;
+    private Long FileId;
 
     private String chunk_text;
 
-    private int chunk_index;
+    private String chunk_index; //not sure
 
 }

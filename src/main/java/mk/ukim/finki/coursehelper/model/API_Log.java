@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -17,15 +14,8 @@ public class API_Log
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    //user id
 
-    private String method;
-
-    private int status_code;
-
-    private LocalDateTime timestamp;
-
-    //endpoint
+    //endpoint, method, response_time, status_code, timestamp
+    //more info
 }

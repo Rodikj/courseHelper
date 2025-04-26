@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -16,14 +14,8 @@ public class Embedding
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "chunk_id")
-    private DocumentChunk document_chunk;
+    private String chunk_index; //not sure
 
-    private String vector;
-
-    private String model;
-
-    private LocalDate embedding_date;
+    private String vector;// i do not know also model, embedding_date
 
 }
