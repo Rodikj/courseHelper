@@ -1,5 +1,6 @@
 package mk.ukim.finki.coursehelper.service;
 
+import lombok.AllArgsConstructor;
 import mk.ukim.finki.coursehelper.model.Course;
 import mk.ukim.finki.coursehelper.model.File;
 import mk.ukim.finki.coursehelper.model.User;
