@@ -44,6 +44,10 @@ public class FileService {
         return fileRepository.save(file);
     }
 
+    public List<File> getAllFiles() {
+        return fileRepository.findAll();
+    }
+
 
 
 
