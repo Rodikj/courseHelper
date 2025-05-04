@@ -5,8 +5,6 @@ services:
     build: .
     ports:
       - "8000:8000"
-    env_file:
-      - .env
     volumes:
       - uploads_data:/app/uploads  # Mount the uploads directory
     depends_on:

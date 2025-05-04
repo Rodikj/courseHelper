@@ -6,4 +6,4 @@ class QueryVectorSchema(BaseModel):
     """
 
     # The query to be vectorized
-    query: str = Field(..., description="The user's question about the PDF content, which will be used to search the vector database.")
+    question: str = Field(..., description="The user's question about the PDF content, which will be used to search the vector database.")

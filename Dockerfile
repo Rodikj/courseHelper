@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Set env vars
-RUN echo "REDIS_HOST=redis\nREDIS_PORT=6379\nREDIS_DB=0\nQDRANT_HOST=qdrant\nQDRANT_PORT=6333" > /app/.env
+RUN echo "REDIS_HOST=redis\nREDIS_PORT=6379\nREDIS_DB=0\nQDRANT_HOST=qdrant\nQDRANT_PORT=6333\nGOOGLE_GENAI_UPLOAD_TIMEOUT=1000" > /app/.env
 
 # Copy installed Python deps
 COPY --from=builder /install /usr/local
