@@ -1,5 +1,6 @@
 from app.models.enums import ModelProvider, UriProvider
 from app.services.api_provider_implementations.gemini_service import GeminiService
+from app.services.api_provider_implementations.agent_service import AgentService
 from app.models.request import AIRequest, UriRequest
 
 def get_ai_response(request_data: AIRequest):
@@ -8,11 +9,11 @@ def get_ai_response(request_data: AIRequest):
     model_type = request_data.model_provider
     
     if model_type == ModelProvider.GEMINI.value:
-        service = GeminiService()
+        service = AgentService()
     else:
         raise ValueError(f"Unsupported model type: {model_type}")
 
-    return service.process(request_data)
+    return service.process_agent(request_data)
 
 def upload_file_to_gemini(request: UriRequest):
     """Uploads a file to Gemini based on the URI provider."""

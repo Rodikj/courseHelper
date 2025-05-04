@@ -1,13 +1,15 @@
+## DEPRECATED!! USING LANGGRAPH AGENTIC NOW
+
 import os
 import time
 from google import genai
-from google.genai import types
-from moviepy import VideoFileClip
 from app.models.request import AIRequest, UriRequest
-from app.models.conversation import Message, ConversationHistory
-from app.models.enums import VideoType, UriProvider
-from app.models.video import Video, Duration, GeminiUriProvider
+from app.models.conversation import Message
+from app.models.video import GeminiUriProvider
 from app.utils.time_util import convert_seconds_to_minutes, get_youtube_video_duration, get_file_video_duration
+from app.utils.conversation_util import convert_conversation_to_google_format, convert_conversation_to_langchain_format
+from app.utils.model_config_util import generate_model_config_for_gemini
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 class GeminiService:
 
@@ -49,41 +51,10 @@ class GeminiService:
 
         api_key = request.api_key if request.api_key else os.environ.get("GEMINI_API_KEY")
         client = genai.Client(api_key=api_key)
-        parts = []  # Structured conversation history
 
-        if request.conversation_history:
-            for msg in request.conversation_history.messages:
-                if msg.role == "user":
-                    part = [types.Part.from_text(text=msg.content)]
-                    if msg.video:
-                        if msg.video.duration is None:
-                            if msg.video.type == VideoType.YOUTUBE_VIDEO:
-                                msg.video.duration = Duration()
-                                duration = get_youtube_video_duration(video_uri=msg.video.uri)
-                            elif msg.video.type == VideoType.FILE_VIDEO:
-                                msg.video.duration = Duration()
-                                duration = get_file_video_duration(file_path=msg.video.path)
-                            msg.video.duration.minutes = duration["minutes"]
-                            msg.video.duration.seconds = duration["seconds"]
-                        part = types.Part.from_text(text=f"{msg.content}\n\nVideo Duration: {msg.video.duration.minutes}m {msg.video.duration.seconds}s")
-                        part = [
-                            types.Part.from_uri(file_uri=msg.video.uri, mime_type="video/*" if msg.video.uri_data.uri_mime_type is None else msg.video.uri_data.uri_mime_type),
-                            part,
-                        ]
-                    parts.append(types.Content(role="user", parts=part))
-
-                elif msg.role == "model":
-                    parts.append(types.Content(role="model", parts=[types.Part.from_text(text=msg.content)]))
-
-        # Configure model settings
-        generate_content_config = types.GenerateContentConfig(
-            temperature=0.6,
-            top_p=0.95,
-            top_k=40,
-            max_output_tokens=8192,
-            response_mime_type="text/plain",
-            system_instruction=[types.Part.from_text(text=request.system_instruction_text)] if request.system_instruction_text else None,
-        )
+        # Convert conversation history to Gemini format
+        parts = convert_conversation_to_google_format(request)
+        generate_content_config = generate_model_config_for_gemini(request)
 
         # Call Gemini AI
         try:
@@ -106,3 +77,20 @@ class GeminiService:
 
         except Exception as e:
             return {"error": str(e)}
+
+    @staticmethod
+    def process_langchain(request: AIRequest):
+        """Process AI request using Gemini with Langchain"""
+
+        api_key = request.api_key if request.api_key else os.environ.get("GEMINI_API_KEY")
+        model = ChatGoogleGenerativeAI(model=request.model_name, temperature=0.6, max_output_tokens=8192, api_key=api_key)
+
+        conversation_list = convert_conversation_to_langchain_format(request)
+
+        result = model.invoke(conversation_list)
+
+        new_message = Message(role="model", content=result.content)
+
+        updated_history = request.conversation_history.messages + [new_message]
+
+        return {"conversation_history": [msg.model_dump() for msg in updated_history]}

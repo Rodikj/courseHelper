@@ -1,12 +1,15 @@
 from pydantic import BaseModel, Field
 from typing import List, Literal, Optional
 from app.models.video import Video
+from langchain_core.messages import ToolMessage
 
 class Message(BaseModel):
     """Schema for a single conversation message"""
-    role: Literal["user", "model"]
+    role: Literal["user", "model", "tool"]
     content: str = Field(description="The content of a message.", min_length=1, example="Hello, what is Python?")
     video: Optional[Video] = Field(default=None, example="https://www.youtube.com/watch?v=fWjsdhR3z3c")
+    tool_calls: Optional[List[dict]] = Field(default=None, example=[{"tool": "multiply", "args": [2, 3]}])
+    tool_results: Optional[List[ToolMessage]] = None
 
 class ConversationHistory(BaseModel):
     """Schema for conversation history"""

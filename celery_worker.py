@@ -1,6 +1,9 @@
 from celery_config import celery_app
 from app.models.request import AIRequest, UriRequest
 from app.services.provider_service import get_ai_response, upload_file_to_gemini
+from app.services import parser_service, summarisation_service, ingestion_service
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai.embeddings import GoogleGenerativeAIEmbeddings
 import shutil
 from app.core.config_settings import get_settings
 import os
@@ -10,6 +13,7 @@ from google import genai
 import asyncio
 from app.utils.time_util import convert_seconds_to_minutes
 import time
+from typing import Optional
 
 settings = get_settings()
 
@@ -55,3 +59,58 @@ def create_video_uri_using_gemini_task(request_data: dict):
     response = upload_file_to_gemini(request)
 
     return response if isinstance(response, dict) else request.video.model_dump()
+
+@celery_app.task(name = "parse_summarize_ingest_pdf")
+def parse_summarize_ingest_pdf_task(file_id: str, file_name: str, file_content: bytes, api_key: Optional[str] = None):
+    """
+    Task to parse, summarize and ingest PDF files.
+    
+    Args:
+        file_path (str): Path to the PDF file
+        file_id (str): Unique identifier for the file
+        file_name (str): Original filename
+    """
+    #Parse
+    parsed_result = parser_service.parse_pdf(file_path="random", file_content=file_content)
+
+    texts = parser_service.get_texts_elements(parsed_result)
+    tables = parser_service.get_table_elements(parsed_result)
+    images = parser_service.get_image_elements_base64(parsed_result)
+
+    #Summarise
+    model = ChatGoogleGenerativeAI(temperature=0.5,
+                               model="gemini-1.5-flash",
+                               api_key=api_key,
+                               )
+    summariser = summarisation_service.Summarisation(model=model)
+
+    summarised_texts = summariser.summarise_chunks(
+        container=texts,
+        extract_input=lambda chunk: chunk.content,  # or just `str(chunk.content)` if `.text` doesn't exist
+        summarization_chain=summariser.summarize_texts_tables_chain
+    )
+
+    summarised_images = summariser.summarise_chunks(
+        container=images,
+        extract_input=lambda chunk: chunk.base64,  
+        summarization_chain=summariser.summarize_images_chain
+    )
+
+    summarised_tables = summariser.summarise_chunks(
+        container=tables,
+        extract_input=lambda chunk: chunk.html,  # or just `str(chunk.content)` if `.text` doesn't exist
+        summarization_chain=summariser.summarize_texts_tables_chain
+    )
+
+    ingestion_embedding_model = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004",
+                                            google_api_key=api_key,
+                                            task_type="retrieval_document")
+    
+    ingestion = ingestion_service.Ingestion(embedding_model=ingestion_embedding_model,
+                                        texts=summarised_texts,
+                                        tables=summarised_tables,
+                                        images=summarised_images,
+                                        qdrant_collection_name=file_id,
+                                        )
+    
+    return {"qdrant_collection_name": file_id}
