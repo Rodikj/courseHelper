@@ -1,0 +1,2 @@
+from .prompt_summarisation_text_table import prompt_text_summarisation
+from .prompt_summarisation_image import prompt_image_summarisation

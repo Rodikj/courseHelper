@@ -1,0 +1,17 @@
+fastapi==0.115.12
+uvicorn==0.34.0
+celery==5.4.0
+redis==5.2.1
+pydantic==2.10.6
+google-genai==1.7.0
+moviepy==2.1.2
+pytubefix==8.12.2
+pydantic-settings==2.8.1
+python-multipart==0.0.20
+gevent==24.11.1
+langchain-google-genai==2.1.2
+langchain-core==0.3.51
+langchain==0.3.23
+langgraph==0.3.25
+unstructured[all-docs]==0.17.2
+qdrant-client==1.13.3
