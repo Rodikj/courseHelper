@@ -25,7 +25,7 @@ const Register = () => {
         </div>
 
         <div className="md:w-1/2 p-10 ">
-          <h2 className="text-2xl font-bold mb-6 text-[#2C2C2C]">Create Account</h2>
+          <h2 className="text-3xl font-bold mb-6 text-[#2C2C2C]">Create Account</h2>
           <form className="space-y-4">
             <div className="flex space-x-4">
               <input
@@ -73,10 +73,10 @@ const Register = () => {
             <button
               type="submit"
               // onClick={()=>handleSubmit()} - za podocna
-              className="w-full bg-[#2D84FF] text-white font-semibold p-3 rounded-md hover:bg-blue-600 transition hover:cursor-pointer">
+              className="w-full bg-[#2D84FF] text-white font-semibold p-3 rounded-md hover:bg-blue-600 transition duration-300 hover:cursor-pointer">
               Register
             </button>
-            <p className="text-sm text-[#7e7e7e] text-center">
+            <p className="text-sm text-[#7e7e7e]">
               Already have an account?{" "}
               <NavLink to="/login" className="text-blue-500 hover:underline">
                 Log in

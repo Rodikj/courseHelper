@@ -5,21 +5,21 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center bg-blue-400">
-            <div className="min-h-screen flex w-full h-full">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+            <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-5xl">
                 {/* Left Side */}
-                <div className="w-1/3  flex flex-col align-top p-8">
-                    <h2 className="text-5xl font-bold text-black mb-2 mt-10 text-balance p-5">
-                        <span className="text-white font-bold">Superpower </span>your learning with AI</h2>
+                <div className="md:w-1/2 items-center justify-center bg-[#2D84FF] p-10">
+                    <h1 className="text-4xl font-bold my-auto md:mt-15 mb-10 text-center">
+                        <span className="text-white">Course Helper </span>
+                    </h1>
+                    <h1 className="text-4xl font-bold text-white text-center">
+                        <span className="text-white">Superpower </span><span className="text-[#2C2C2C]">your learning with <span className="border-b-4 border-dotted border-white">AI</span></span>
+                    </h1>
                 </div>
 
                 {/* Right Side */}
-                <div className="w-2/3 bg-white flex flex-col items-center pt-10 pb-10 rounded-s-4xl">
-                    <div className="w-full max-w-xl lg:w-1/2 sm:w-1/2 mr-10">
-
-                        <LoginForm />
-
-                    </div>
+                <div className="md:w-1/2 p-10">
+                    <LoginForm />
                 </div>
             </div>
         </div>
