@@ -7,6 +7,8 @@ import Login from './pages/Login'
 import RootLayout from './layout/RootLayout'
 import Dashboard from './pages/Dashboard'
 import CoursePage from './pages/CoursePage'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
+
 
 function App() {
   const router = createBrowserRouter(createRoutesFromElements(
@@ -16,8 +18,18 @@ function App() {
         <Route path='register' element={<Register />} />
         <Route path='login' element={<Login />} />
       </Route>
-      <Route path='dashboard' element={<Dashboard />} />
-      <Route path='course' element={<CoursePage />} />
+
+      <Route path='dashboard' element={
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+        } />
+
+      <Route path='course' element={
+      <ProtectedRoute>
+        <CoursePage />
+      </ProtectedRoute>
+        } />
     </>
   ))
 
