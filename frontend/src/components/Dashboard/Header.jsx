@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaSignOutAlt, FaUser } from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -9,7 +9,6 @@ const Header = () => {
 
   useEffect(() => {
     // Retrieve user info from localStorage
-    // for actual implementation retrieve info from the database
     const storedUser = localStorage.getItem('registeredUser');
     if (storedUser) {
       setUserInfo(JSON.parse(storedUser));
@@ -27,18 +26,28 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm py-4 px-6 flex justify-end items-center">
+    <header className="bg-white shadow-sm py-3 md:py-4 px-4 md:px-6 flex justify-between md:justify-end items-center w-full">
+      {/* Mobile menu button - not yet functional */}
+      {/* <div className="md:hidden">
+        <button className="text-gray-500 hover:text-gray-700">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div> */}
+      
+      {/* Title visible only on mobile */}
+      <div className="md:hidden text-xl font-bold text-blue-500">Course Helper</div>
+      
+      {/* User profile */}
       <div className="relative">
         <button 
           onClick={() => setShowProfileDropdown(!showProfileDropdown)}
           className="flex hover:cursor-pointer hover:opacity-85 items-center space-x-2 focus:outline-none"
         >
-          <div className="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center">
+          <div className="bg-blue-500 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
             {userInfo ? userInfo.firstName.charAt(0).toUpperCase() : 'U'}
           </div>
-          {/* <span className="text-gray-700 font-medium">
-            {userInfo ? userInfo.firstName : 'User'}
-          </span> */}
         </button>
 
         {showProfileDropdown && (
