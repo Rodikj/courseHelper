@@ -1,6 +1,7 @@
 from celery_config import celery_app
 from app.models.request import AIRequest, UriRequest
 from app.services.provider_service import get_ai_response, upload_file_to_gemini
+from app.services.flash_card_service import create_flash_cards_service
 from app.services import parser_service, summarisation_service, ingestion_service
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai.embeddings import GoogleGenerativeAIEmbeddings
@@ -9,6 +10,7 @@ from app.core.config_settings import get_settings
 import os
 from app.models.video import Video, GeminiUriProvider
 from app.models.enums import VideoType
+from app.models.flash_cards import FlashCardList
 from google import genai
 import asyncio
 from app.utils.time_util import convert_seconds_to_minutes
@@ -61,7 +63,11 @@ def create_video_uri_using_gemini_task(request_data: dict):
     return response if isinstance(response, dict) else request.video.model_dump()
 
 @celery_app.task(name = "parse_summarize_ingest_pdf")
-def parse_summarize_ingest_pdf_task(file_id: str, file_name: str, file_content: bytes, api_key: Optional[str] = None):
+def parse_summarize_ingest_pdf_task(file_id: str,
+                                    file_name: str,
+                                    file_content: bytes,
+                                    api_key: Optional[str] = None,
+                                    file_type: Optional[str] = None):
     """
     Task to parse, summarize and ingest PDF files.
     
@@ -71,7 +77,7 @@ def parse_summarize_ingest_pdf_task(file_id: str, file_name: str, file_content: 
         file_name (str): Original filename
     """
     #Parse
-    parsed_result = parser_service.parse_pdf(file_path="random", file_content=file_content)
+    parsed_result = parser_service.parse_pdf(file_path="random", file_content=file_content, file_type=file_type)
 
     texts = parser_service.get_texts_elements(parsed_result)
     tables = parser_service.get_table_elements(parsed_result)
@@ -112,5 +118,17 @@ def parse_summarize_ingest_pdf_task(file_id: str, file_name: str, file_content: 
                                         images=summarised_images,
                                         qdrant_collection_name=file_id,
                                         )
-    
-    return {"qdrant_collection_name": file_id}
+    flash_cards = create_flash_cards_service(collection_name=file_id, api_key=api_key)
+    return {"qdrant_collection_name": file_id, "flash_cards": flash_cards.to_json_serializable() if isinstance(flash_cards, FlashCardList) else flash_cards}
+
+@celery_app.task(name = "create_flash_cards")
+def create_flash_cards_task(api_key: str, qdrant_collection_name: Optional[str] = None, video: Optional[Video] = None):
+    if qdrant_collection_name and video:
+        return {"error": "Both collection and video provided, only provide a singular one, video or collection name."}
+    elif qdrant_collection_name:
+        flash_cards = create_flash_cards_service(collection_name=qdrant_collection_name, api_key=api_key)
+    elif video:
+        flash_cards = create_flash_cards_service(video=video, api_key=api_key)
+    else:
+        return {"error": "No collection name or video provided."}
+    return flash_cards if isinstance(flash_cards, dict) else flash_cards.model_dump()

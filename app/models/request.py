@@ -13,9 +13,14 @@ class AIRequest(BaseModel):
     )
     conversation_history: Optional[ConversationHistory] = None  # Optional past messages
     api_key: Optional[str] = Field(default=None, example="1234567890")  # API key for authentication
-    collection_name: Optional[str] = Field(
+    pdf_collection_name: Optional[str] = Field(
         default=None, example="my_collection"
     )  # Name of the collection in the vector database
+    docx_collection_name: Optional[str] = Field(
+        default=None, example="my_collection"
+    )  # Name of the collection in the vector database
+    video: Optional[Video] = Field(default=None, example="https://www.youtube.com/watch?v=fWjsdhR3z3c")
+
 
 class UriRequest(BaseModel):
     video: Video = None

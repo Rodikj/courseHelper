@@ -30,6 +30,10 @@ or alternatively start a Redis instance as a Docker container:
 ```
 "docker run -d --name redis-server -p 6379:6379 redis:alpine"
 ```
+7. Start a Qdrant instance as a Docker container:
+```
+"docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant"
+```
 7. Start the Celery task broker by running "celery -A celery_worker worker --loglevel=info --hostname=workerName"
 8. Start the FastAPI app by running "uvicorn main:app --reload"
 
