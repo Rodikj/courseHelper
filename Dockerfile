@@ -11,27 +11,40 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 FROM python:3.10-slim
 WORKDIR /app
 
-# Install system deps for OpenCV
-RUN apt-get update && apt-get install -y \
+# Use HTTPS for apt and update DNS for reliability
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    libreoffice \
+    unoconv \
     libgl1 \
     libglib2.0-0 \
     poppler-utils \
     tesseract-ocr \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Set env vars
-RUN echo "REDIS_HOST=redis\nREDIS_PORT=6379\nREDIS_DB=0\nQDRANT_HOST=qdrant\nQDRANT_PORT=6333\nGOOGLE_GENAI_UPLOAD_TIMEOUT=1000" > /app/.env
+# Set environment variables
+ENV REDIS_HOST=redis \
+    REDIS_PORT=6379 \
+    REDIS_DB=0 \
+    QDRANT_HOST=qdrant \
+    QDRANT_PORT=6333 \
+    GOOGLE_GENAI_UPLOAD_TIMEOUT=1000
 
-# Copy installed Python deps
+# Copy installed Python dependencies
 COPY --from=builder /install /usr/local
 
-# 🔁 Now copy application code separately
+# Copy application code separately for better caching
 COPY ./app ./app
 COPY *.py ./
 COPY original_files_for_patching/_api_client.py /usr/local/lib/python3.10/site-packages/google/genai/_api_client.py
 COPY original_files_for_patching/files.py /usr/local/lib/python3.10/site-packages/google/genai/files.py
 
+# Ensure permissions for the application
+RUN chmod -R 755 /app
+
 EXPOSE 8000
+<<<<<<< HEAD
 =======
 FROM python:3.10
 
@@ -54,3 +67,8 @@ EXPOSE 8000
 # Start FastAPI and Celery together
 >>>>>>> 143d6af (Initial Python service commit)
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 & celery -A celery_worker worker --loglevel=info"]
+=======
+
+# Use shell form CMD for better signal handling
+CMD uvicorn main:app --host 0.0.0.0 --port 8000 & celery -A celery_worker worker --loglevel=info
+>>>>>>> 933d357 (Added DOCX and Flash Cards implementations)

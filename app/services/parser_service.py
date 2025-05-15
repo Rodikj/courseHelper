@@ -1,13 +1,19 @@
 from unstructured.partition.pdf import partition_pdf
+from unstructured.partition.docx import partition_docx
 from unstructured.documents.elements import Element, CompositeElement, Table
 from typing import Union
+from app.models.enums import FileTypeFastAPI
 from app.models.ingestion_retrieval_models import Texts, Tables, Images, TextChunk, TableChunk, ImageChunk
 import io
+from app.utils.convert_docx_to_pdf_util import convert_doc_to_pdf
 
-def parse_pdf(file_path: str = None, file_content: bytes = None) -> list[Element]:
+def parse_pdf(file_path: str = None, file_content: bytes = None, file_type: str = None) -> list[Element]:
     if file_path == None and file_content==None:
         raise Exception("You must provide either a file path or file content!")
     
+    if file_type == FileTypeFastAPI.WORD:
+        file_content = convert_doc_to_pdf(file_content, file_type="docx")
+
     chunks = partition_pdf(
         file_path= file_path,
         file = io.BytesIO(file_content),

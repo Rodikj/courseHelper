@@ -29,7 +29,9 @@ class AgentService:
             embedding_model=embedding_model,
             client=client,
             system_prompt=request.system_instruction_text,
-            collection_name=request.collection_name
+            pdf_collection_name=request.pdf_collection_name,
+            docx_collection_name=request.docx_collection_name,
+            video=request.video,
         )
 
         conversation_list = convert_conversation_to_agent_format(request)

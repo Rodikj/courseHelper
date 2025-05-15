@@ -25,3 +25,8 @@ class GeminiUriState(str,Enum):
     PROCESSING = "PROCESSING"
     ACTIVE = "ACTIVE"
     FAILED = "FAILED"
+
+class FileTypeFastAPI(str, Enum):
+    """Supported file types in a course"""
+    PDF = "application/pdf"
+    WORD = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
