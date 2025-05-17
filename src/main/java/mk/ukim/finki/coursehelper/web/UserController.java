@@ -21,11 +21,12 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<RegisterResponseDTO> registerUser(@RequestBody RegisterDTO registerDTO) {
         try {
-            User user = userService.createUser(registerDTO.name(), registerDTO.email(), registerDTO.password());
+            User user = userService.createUser(registerDTO.name(), registerDTO.surname(), registerDTO.email(), registerDTO.password());
 
             RegisterResponseDTO responseDTO = new RegisterResponseDTO(
                     user.getId(),
                     user.getName(),
+                    user.getSurname(),
                     user.getEmail()
             );
 

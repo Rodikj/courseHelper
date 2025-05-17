@@ -19,9 +19,10 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(String name, String email, String password) {
+    public User createUser(String name,String surname, String email, String password) {
         User user = new User();
         user.setName(name);
+        user.setSurname(surname);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
 
@@ -44,9 +45,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User updateUser(Long id, String name, String email, String password) {
+    public User updateUser(Long id, String name, String surname, String email, String password) {
         User user = getUserById(id).orElseThrow(() -> new RuntimeException("User id not found"));
         user.setName(name);
+        user.setSurname(surname);
         user.setEmail(email);
         user.setPassword(password);
         return userRepository.save(user);
