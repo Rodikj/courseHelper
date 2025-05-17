@@ -8,35 +8,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class EmbeddingService {
-    private final EmbeddingRepository embeddingRepository;
 
-    public EmbeddingService(EmbeddingRepository embeddingRepository) {
-        this.embeddingRepository = embeddingRepository;
-    }
+public interface EmbeddingService
+{
 
-    public Embedding saveEmbedding(Embedding embedding) {
-        return embeddingRepository.save(embedding);
-    }
 
-    public Optional<Embedding> getEmbeddingById(Long id) {
-        return embeddingRepository.findById(id);
-    }
+    Embedding saveEmbedding(Embedding embedding);
+    Optional<Embedding> getEmbeddingById(Long id);
+    List<Embedding> getEmbeddingsByChunk(DocumentChunk chunk);
+    Optional<Embedding> getEmbeddingByChunkId(Long chunkId);
+    void deleteEmbedding(Long id);
+    List<Embedding> getAllEmbeddings();
 
-    public List<Embedding> getEmbeddingsByChunk(DocumentChunk chunk) {
-        return embeddingRepository.findByDocumentChunk(chunk);
-    }
 
-    public Optional<Embedding> getEmbeddingByChunkId(Long chunkId) {
-        return embeddingRepository.findByDocumentChunkId(chunkId);
-    }
 
-    public void deleteEmbedding(Long id) {
-        embeddingRepository.deleteById(id);
-    }
-
-    public List<Embedding> getAllEmbeddings() {
-        return embeddingRepository.findAll();
-    }
 }

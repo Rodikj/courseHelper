@@ -8,29 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class VideoLinkService {
 
-    private final VideoLinkRepository videoLinkRepository;
+public interface VideoLinkService {
 
-    public VideoLinkService(VideoLinkRepository videoLinkRepository) {
-        this.videoLinkRepository = videoLinkRepository;
-    }
+    VideoLink saveVideoLink(VideoLink videoLink);
+    Optional<VideoLink> getVideoLinkById(Long id);
+    List<VideoLink> getAllVideoLinks();
+    List<VideoLink> getLinksByCourse(Course course);
 
-    public VideoLink saveVideoLink(VideoLink videoLink) {
-        return videoLinkRepository.save(videoLink);
-    }
 
-    public Optional<VideoLink> getVideoLinkById(Long id) {
-        return videoLinkRepository.findById(id);
-    }
-
-    public List<VideoLink> getAllVideoLinks() {
-        return videoLinkRepository.findAll();
-    }
-
-    // NEW: fetch all links for a specific course
-    public List<VideoLink> getLinksByCourse(Course course) {
-        return videoLinkRepository.findByCourse(course);
-    }
 }

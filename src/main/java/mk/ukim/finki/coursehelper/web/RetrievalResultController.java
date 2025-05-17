@@ -62,5 +62,11 @@ public class RetrievalResultController {
                 ))
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/test")
+    public String smoke()
+    {
+        return "✅ controller is alive";
+    }
 }
 
