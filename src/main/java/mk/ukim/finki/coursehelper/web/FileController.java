@@ -1,72 +1,81 @@
 package mk.ukim.finki.coursehelper.web;
 
-import mk.ukim.finki.coursehelper.dto.FileDTO;
+import mk.ukim.finki.coursehelper.dto.FileResponseDTO;
+import mk.ukim.finki.coursehelper.dto.FileUploadRequestDTO;
 import mk.ukim.finki.coursehelper.model.Course;
 import mk.ukim.finki.coursehelper.model.File;
 import mk.ukim.finki.coursehelper.model.User;
 import mk.ukim.finki.coursehelper.service.CourseService;
 import mk.ukim.finki.coursehelper.service.FileService;
+import mk.ukim.finki.coursehelper.service.PythonService;
 import mk.ukim.finki.coursehelper.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/files")
+//@RequestMapping("/api/files")
+@RequestMapping("/api/courses/{courseId}/files")
 public class FileController {
 
+
+    private final Logger log = LoggerFactory.getLogger(FileController.class);
     private final FileService fileService;
     private final UserService userService;
     private final CourseService courseService;
+    private final PythonService pythonService;
 
     public FileController(FileService fileService,
                           UserService userService,
-                          CourseService courseService) {
+                          CourseService courseService,
+                          PythonService pythonService) {
         this.fileService = fileService;
         this.userService = userService;
         this.courseService = courseService;
+        this.pythonService = pythonService;
     }
 
-    /** Create a new File for a given course.
-     *  Pass the courseId as a query parameter, e.g. POST /api/files?courseId=42
-     */
-    @PostMapping
+
+
+    @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public FileDTO create(
-            @RequestParam("courseId") Long courseId,
-            @RequestBody FileDTO dto
+    public FileResponseDTO createJson(
+            @PathVariable Long courseId,
+            @RequestBody FileUploadRequestDTO dto
     ) {
-        // 1) look up the User
-        User user = userService.getUserById(dto.user().getId())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "User not found"));
-
-        // 2) look up the Course
+        // 1) load course
         Course course = courseService.getCourseById(courseId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Course not found"));
-
-        // 3) build a fresh File entity (ignore dto.id/upload_date/processed)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+        // 2) load user
+        User user = userService.getUserById(dto.userId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        // 3) build & save File
         File f = new File();
-        f.setUser(user);
         f.setCourse(course);
-        f.setFile_name(dto.file_name());
-        f.setFile_type(dto.file_type());
-        // if you have a real MD5 of the content, compute it; otherwise:
-        f.setMd5(dto.file_name());
+        f.setUser(user);
+        f.setFile_name(dto.fileName());
+        f.setFile_type(dto.fileType());
+        f.setMd5("TODO‑compute‑md5");
         f.setUpload_date(LocalDate.now());
         f.setProcessed(false);
-
-        // 4) save and return a FileDTO
         File saved = fileService.saveFile(f);
-        return new FileDTO(
+
+        // 4) return response DTO
+        return new FileResponseDTO(
                 saved.getId(),
-                saved.getUser(),
+                user.getId(),
+                course.getId(),
                 saved.getFile_name(),
                 saved.getFile_type(),
                 saved.getUpload_date(),
@@ -74,13 +83,20 @@ public class FileController {
         );
     }
 
-    /** List **all** files (no course filter) */
-    @GetMapping
-    public List<FileDTO> listAll() {
-        return fileService.getAllFiles().stream()
-                .map(f -> new FileDTO(
+    /**
+     * List all files under this course.
+     */
+    @GetMapping(produces = "application/json")
+    public List<FileResponseDTO> listByCourse(@PathVariable Long courseId) {
+        Course course = courseService.getCourseById(courseId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+        return fileService.getFilesByCourse(course)
+                .stream()
+                .map(f -> new FileResponseDTO(
                         f.getId(),
-                        f.getUser(),
+                        f.getUser().getId(),
+//                        course.getId(),
+                        courseId,
                         f.getFile_name(),
                         f.getFile_type(),
                         f.getUpload_date(),
@@ -88,20 +104,195 @@ public class FileController {
                 ))
                 .collect(Collectors.toList());
     }
-
-    /** Get one by its ID */
-    @GetMapping("/{id}")
-    public FileDTO getOne(@PathVariable Long id) {
-        File f = fileService.getFileById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "File not found"));
-        return new FileDTO(
-                f.getId(),
-                f.getUser(),
-                f.getFile_name(),
-                f.getFile_type(),
-                f.getUpload_date(),
-                f.isProcessed()
-        );
-    }
 }
+
+
+
+
+//    @PostMapping(
+//            path = "/json-upload",
+//            consumes = MediaType.APPLICATION_JSON_VALUE,
+//            produces = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public FileResponseDTO uploadJson(@RequestBody FileUploadRequestDTO dto) {
+//        // 1) find user and course
+//        var user = userService.getUserById(dto.userId())
+//                .orElseThrow(() -> new ResponseStatusException(
+//                        HttpStatus.NOT_FOUND, "User not found"));
+//        var course = courseService.getCourseById(dto.courseId())
+//                .orElseThrow(() -> new ResponseStatusException(
+//                        HttpStatus.NOT_FOUND, "Course not found"));
+//
+//        // 2) build and save the File entity
+//        var f = new File();
+//        f.setUser(user);
+//        f.setCourse(course);
+//        f.setFile_name(dto.fileName());
+//        f.setFile_type(dto.fileType());
+//        f.setMd5("TODO-compute-md5"); // placeholder
+//        f.setUpload_date(LocalDate.now());
+//        f.setProcessed(false);
+//
+//        var saved = fileService.saveFile(f);
+//
+//        // 3) return a response DTO
+//        return new FileResponseDTO(
+//                saved.getId(),
+//                user.getId(),
+//                course.getId(),
+//                saved.getFile_name(),
+//                saved.getFile_type(),
+//                saved.getUpload_date(),
+//                saved.isProcessed()
+//        );
+//    }
+
+
+    //testing
+//    @PostMapping("/upload")
+//    public ResponseEntity<String> uploadFile() {
+//        // Create a dummy/mock file
+//        PythonService.MockFile file = new PythonService.MockFile("testfile.txt");
+//
+//        String response = pythonService.uploadFile(file);
+//        return ResponseEntity.ok(response);
+//    }
+
+
+
+
+//    @PostMapping(consumes = "application/octet-stream")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Map<String, Object> uploadFileRaw(
+//            @RequestParam("courseId") Long courseId,
+//            @RequestParam("userId") Long userId,
+//            @RequestHeader("File-Name") String filename,
+//            @RequestBody byte[] fileContent
+//    ) throws Exception {
+//        User user = userService.getUserById(userId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+//        Course course = courseService.getCourseById(courseId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+//
+//        File f = new File();
+//        f.setUser(user);
+//        f.setCourse(course);
+//        f.setFile_name(filename);
+//        f.setFile_type("application/octet-stream");
+//        f.setMd5(filename); // placeholder
+//        f.setUpload_date(LocalDate.now());
+//        f.setProcessed(false);
+//
+//        File saved = fileService.saveFile(f);
+//
+//        return Map.of(
+//                "fileId", saved.getId(),
+//                "filename", saved.getFile_name()
+//        );
+//    }
+
+
+
+
+
+
+    /**
+     * Upload a new file and attach it to a course.
+     * Testable via Postman as multipart/form-data.
+     */
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Map<String,Object> create(
+//            @RequestParam("courseId") Long courseId,
+//            @RequestParam("userId")   Long userId,
+//            @RequestParam("file")     MultipartFile file
+//    ) throws Exception {
+//
+//        log.info("Received upload request: courseId={} userId={} fileName={} size={}",
+//                courseId, userId, file.getOriginalFilename(), file.getSize());
+//
+//        // 1) Validate User
+//        User user = userService.getUserById(userId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+//
+//        // 2) Validate Course
+//        Course course = courseService.getCourseById(courseId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+//
+//        // 3) Create File entity
+//        File f = new File();
+//        f.setUser(user);
+//        f.setCourse(course);
+//        f.setFile_name(file.getOriginalFilename());
+//        f.setFile_type(file.getContentType());
+//        //f.setMd5(file.getOriginalFilename()); // placeholder for now
+//        f.setMd5("TODO‑compute‑md5");
+//        f.setUpload_date(LocalDate.now());
+//        f.setProcessed(false);
+//
+//        File saved = fileService.saveFile(f);
+//
+//        // 4) Optional: Forward file to Python service
+////        Map<?, ?> pyResp = pythonService.uploadFile(file);
+////        String taskId = (String) pyResp.get("task_id");
+//
+//        // 5) Return response
+////        return Map.of(
+////                "fileId", saved.getId(),
+////                "filename", saved.getFile_name(),
+////                "taskId", taskId
+////        );
+////        return Map.of(
+////                "fileId",   saved.getId(),
+////                "filename", saved.getFile_name()
+////                // no taskId while Python is down
+////        );
+//
+//        log.info("Saved File metadata: id={} filename={}", saved.getId(), saved.getFile_name());
+//        return Map.of("fileId", saved.getId());
+//    }
+
+    /**
+     * Get processing status of a file by its Python task ID
+     */
+//    @GetMapping("/status/{taskId}")
+//    public Map<?, ?> checkStatus(@PathVariable String taskId) {
+//        return pythonService.getTaskStatus(taskId);
+//    }
+//
+//    /**
+//     * List all files
+//     */
+//    @GetMapping
+//    public List<Map<String, ?>> listAll()
+//
+//    {
+//        return fileService.getAllFiles().stream()
+//                .map(f -> Map.of(
+//                        "id", f.getId(),
+//                        "filename", f.getFile_name(),
+//                        "user", f.getUser().getName(),
+//                        "course", f.getCourse().getCourse_name(),
+//                        "uploadDate", f.getUpload_date(),
+//                        "processed", f.isProcessed()
+//                )).collect(Collectors.toList());
+//    }
+
+    /**
+     * Get a file by ID
+     */
+//    @GetMapping("/{id}")
+//    public Map<String,Object> getOne(@PathVariable Long id) {
+//        File f = fileService.getFileById(id)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
+//        return Map.of(
+//                "id", f.getId(),
+//                "filename", f.getFile_name(),
+//                "user", f.getUser().getName(),
+//                "course", f.getCourse().getCourse_name(),
+//                "uploadDate", f.getUpload_date(),
+//                "processed", f.isProcessed()
+//        );
+//    }
+//}

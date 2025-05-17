@@ -1,17 +1,10 @@
 package mk.ukim.finki.coursehelper.model;
 
-
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
-@Data
 @Entity
-@NoArgsConstructor
-public class File
-{
+public class File {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +15,7 @@ public class File
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", unique = true)
+    @JoinColumn(name = "course_id")
     private Course course;
 
     private String md5;
@@ -34,6 +27,8 @@ public class File
     private LocalDate upload_date;
 
     private boolean processed;
+
+    public File() {}
 
     public Long getId() {
         return id;

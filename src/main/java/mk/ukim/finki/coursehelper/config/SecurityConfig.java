@@ -19,13 +19,32 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public DefaultSecurityFilterChain securityFilterChain(
+//            HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity.csrf(csrf -> csrf.disable())
+//                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
+//        .authorizeHttpRequests(it -> it.
+//                requestMatchers("/api/**", "/h2/**", "/h2-console/**")
+//                .permitAll().anyRequest().authenticated())
+//                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .build();
+//    }
+
     @Bean
-    public DefaultSecurityFilterChain securityFilterChain(
-            HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(it -> it.requestMatchers("/api/**").permitAll().anyRequest().authenticated())
-                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth ->
+                        auth.anyRequest().permitAll()
+                )
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers ->
+                        // keep H2 console working if you like
+                        headers.frameOptions(frameOptions -> frameOptions.sameOrigin())
+                )
                 .build();
     }
+
 
 }

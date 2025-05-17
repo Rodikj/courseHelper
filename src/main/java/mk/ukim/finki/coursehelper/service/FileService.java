@@ -1,5 +1,6 @@
 package mk.ukim.finki.coursehelper.service;
 
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.coursehelper.model.Course;
 import mk.ukim.finki.coursehelper.model.File;
@@ -32,6 +33,9 @@ public class FileService {
         return fileRepository.findByUser(user);
     }
 
+    @ManyToOne
+    private Course course;
+
     public File updateFile(Long id, User user, Course course, String md5, String file_name, String file_type, LocalDate upload_date, boolean processed) {
         File file = getFileById(id).orElseThrow(() -> new RuntimeException("User id not found"));
         file.setUser(user);
@@ -47,6 +51,12 @@ public class FileService {
     public List<File> getAllFiles() {
         return fileRepository.findAll();
     }
+
+    // src/main/java/mk/ukim/finki/coursehelper/service/FileService.java
+    public List<File> getFilesByCourse(Course course) {
+        return fileRepository.findByCourse(course);
+    }
+
 
 
 
