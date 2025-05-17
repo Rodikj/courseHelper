@@ -8,31 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class QueryService {
-    private final QueryRepository queryRepository;
 
-    public QueryService(QueryRepository queryRepository) {
-        this.queryRepository = queryRepository;
-    }
+public interface QueryService
+{
 
-    public Query saveQuery(Query query) {
-        return queryRepository.save(query);
-    }
 
-    public Optional<Query> getQueryById(Long id) {
-        return queryRepository.findById(id);
-    }
-
-    public List<Query> getQueriesForUser(User user) {
-        return queryRepository.findByUserOrderByTimestampDesc(user);
-    }
-
-    public void deleteQuery(Long id) {
-        queryRepository.deleteById(id);
-    }
-
-    public List<Query> getAllQueries() {
-        return queryRepository.findAll();
-    }
+    Query saveQuery(Query query);
+    Optional<Query> getQueryById(Long id);
+    List<Query> getQueriesForUser(User user);
+    void deleteQuery(Long id);
+    List<Query> getAllQueries();
 }
