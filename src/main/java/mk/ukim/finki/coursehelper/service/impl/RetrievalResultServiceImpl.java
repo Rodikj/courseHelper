@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // package mk.ukim.finki.coursehelper.service.impl;
 
 // import mk.ukim.finki.coursehelper.model.DocumentChunk;
@@ -54,3 +55,9 @@
 //         return retrievalResultRepository.findAll();
 //     }
 // }
+=======
+package mk.ukim.finki.coursehelper.service.impl;
+
+public class RetrievalResultServiceImpl {
+}
+>>>>>>> 3fc453b (updated user)

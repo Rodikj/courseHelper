@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //package mk.ukim.finki.coursehelper.service.impl;
 //
 //import mk.ukim.finki.coursehelper.model.Course;
@@ -164,4 +165,9 @@ public class FileServiceImpl implements FileService {
 
         return fileRepository.save(file);
     }
+=======
+package mk.ukim.finki.coursehelper.service.impl;
+
+public class FileServiceImpl {
+>>>>>>> 3fc453b (updated user)
 }

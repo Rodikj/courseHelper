@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // package mk.ukim.finki.coursehelper.service.impl;
 
 
@@ -45,3 +46,9 @@
 //         return queryRepository.findAll();
 //     }
 // }
+=======
+package mk.ukim.finki.coursehelper.service.impl;
+
+public class QueryServiceImpl {
+}
+>>>>>>> 3fc453b (updated user)

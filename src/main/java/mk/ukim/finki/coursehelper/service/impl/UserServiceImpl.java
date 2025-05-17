@@ -1,5 +1,6 @@
 package mk.ukim.finki.coursehelper.service.impl;
 
+<<<<<<< HEAD
 import mk.ukim.finki.coursehelper.model.User;
 import mk.ukim.finki.coursehelper.repository.UserRepository;
 import mk.ukim.finki.coursehelper.service.UserService;
@@ -60,4 +61,7 @@ public class UserServiceImpl implements UserService
         user.setPassword(password);
         return userRepository.save(user);
     }
+=======
+public class UserServiceImpl {
+>>>>>>> 3fc453b (updated user)
 }

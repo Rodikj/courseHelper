@@ -1,5 +1,6 @@
 package mk.ukim.finki.coursehelper.service.impl;
 
+<<<<<<< HEAD
 import mk.ukim.finki.coursehelper.service.PythonService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -170,3 +171,7 @@ public class PythonServiceImpl implements PythonService
 
 
 
+=======
+public class PythonServiceImpl {
+}
+>>>>>>> 3fc453b (updated user)

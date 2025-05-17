@@ -1,5 +1,6 @@
 package mk.ukim.finki.coursehelper.service.impl;
 
+<<<<<<< HEAD
 import mk.ukim.finki.coursehelper.model.Course;
 import mk.ukim.finki.coursehelper.model.VideoLink;
 import mk.ukim.finki.coursehelper.repository.VideoLinkRepository;
@@ -37,4 +38,7 @@ public class VideoLinkServiceImpl implements VideoLinkService
     public List<VideoLink> getLinksByCourse(Course course) {
         return videoLinkRepository.findByCourse(course);
     }
+=======
+public class VideoLinkServiceImpl {
+>>>>>>> 3fc453b (updated user)
 }
