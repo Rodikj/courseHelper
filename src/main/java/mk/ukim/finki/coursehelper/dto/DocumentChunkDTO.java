@@ -4,7 +4,8 @@ import mk.ukim.finki.coursehelper.model.File;
 
 public record DocumentChunkDTO(
         Long id,
-        File file,
+//        File file,
+        Long fileId,
         String chunk_text,
         int chunk_index
 ) {
