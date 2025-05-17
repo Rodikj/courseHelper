@@ -21,4 +21,8 @@ public class CorsConfig {
             }
         };
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 437882f (Cors Config)
