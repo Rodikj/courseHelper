@@ -5,8 +5,11 @@ import mk.ukim.finki.coursehelper.model.DocumentChunk;
 
 public record RetrievalResultDTO(
         Long id,
-        Query query,
-        DocumentChunk documentChunk,
+//        Query query,
+//        DocumentChunk documentChunk,
+
+        Long queryId,
+        Long chunkId,
         double score
 ) {}
 

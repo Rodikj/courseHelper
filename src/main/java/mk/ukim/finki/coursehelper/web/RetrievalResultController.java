@@ -34,9 +34,9 @@ public class RetrievalResultController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RetrievalResultDTO create(@RequestBody RetrievalResultDTO dto) {
-        Query q = queryService.getQueryById(dto.query().getId())
+        Query q = queryService.getQueryById(dto.queryId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Query not found"));
-        DocumentChunk c = chunkService.getDocumentChunkById(dto.documentChunk().getId())
+        DocumentChunk c = chunkService.getDocumentChunkById(dto.chunkId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chunk not found"));
         RetrievalResult r = new RetrievalResult();
         r.setQuery(q);
@@ -45,8 +45,10 @@ public class RetrievalResultController {
         RetrievalResult saved = resultService.saveResult(r);
         return new RetrievalResultDTO(
                 saved.getId(),
-                saved.getQuery(),
-                saved.getDocumentChunk(),
+//                saved.getQuery(),
+//                saved.getDocumentChunk(),
+                q.getId(),
+                c.getId(),
                 saved.getScore()
         );
     }
@@ -56,12 +58,45 @@ public class RetrievalResultController {
         return resultService.getAllResults().stream()
                 .map(r -> new RetrievalResultDTO(
                         r.getId(),
-                        r.getQuery(),
-                        r.getDocumentChunk(),
+                        r.getQuery().getId(),
+                        r.getDocumentChunk().getId(),
                         r.getScore()
                 ))
                 .collect(Collectors.toList());
     }
+
+
+
+    @GetMapping("/by-query/{queryId}")
+    public List<RetrievalResultDTO> byQuery(@PathVariable Long queryId) {
+        Query q = queryService.getQueryById(queryId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Query not found"));
+
+        return resultService.getResultsByQuery(q).stream()
+                .map(r -> new RetrievalResultDTO(
+                        r.getId(),
+                        r.getQuery().getId(),
+                        r.getDocumentChunk().getId(),
+                        r.getScore()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/by-chunk/{chunkId}")
+    public List<RetrievalResultDTO> byChunk(@PathVariable Long chunkId) {
+        DocumentChunk c = chunkService.getDocumentChunkById(chunkId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Chunk not found"));
+
+        return resultService.getResultsByChunk(c).stream()
+                .map(r -> new RetrievalResultDTO(
+                        r.getId(),
+                        r.getQuery().getId(),
+                        r.getDocumentChunk().getId(),
+                        r.getScore()))
+                .collect(Collectors.toList());
+    }
+
 
     @GetMapping("/test")
     public String smoke()
