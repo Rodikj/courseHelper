@@ -4,12 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
-@NoArgsConstructor
-
-public class API_Log
-{
+public class API_Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

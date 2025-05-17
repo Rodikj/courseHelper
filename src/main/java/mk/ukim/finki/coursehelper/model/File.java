@@ -1,15 +1,10 @@
 package mk.ukim.finki.coursehelper.model;
 
-
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
-@Data
 @Entity
-@NoArgsConstructor
-public class File
-{
+public class File {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +14,7 @@ public class File
     private Long UserId;
 
     @ManyToOne
+    @JoinColumn(name = "course_id")
     private Course course;
 
     private String md5; //hash something
@@ -29,7 +25,9 @@ public class File
 
     private String upload_date; // needs to be turned into Date
 
-    private String processed; // we shall see
+    private boolean processed;
+
+    public File() {}
 
     public Long getId() {
         return id;

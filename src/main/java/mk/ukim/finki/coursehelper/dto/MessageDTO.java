@@ -1,0 +1,17 @@
+//package mk.ukim.finki.coursehelper.dto;
+//
+//// MessageDTO.java
+//
+//
+//import com.fasterxml.jackson.annotation.JsonInclude;
+//
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+//public record MessageDTO(
+//        String role,
+//        String content,
+//        VideoDTO video,
+//        // in future: you might have tool_calls, tool_results
+//        Object tool_calls,
+//        Object tool_results
+//) {}
+//

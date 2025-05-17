@@ -1,5 +1,6 @@
 package mk.ukim.finki.coursehelper.service;
 
+import mk.ukim.finki.coursehelper.model.Course;
 import mk.ukim.finki.coursehelper.model.VideoLink;
 import mk.ukim.finki.coursehelper.repository.VideoLinkRepository;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,8 @@ public class VideoLinkService {
         return videoLinkRepository.findAll();
     }
 
+    // NEW: fetch all links for a specific course
+    public List<VideoLink> getLinksByCourse(Course course) {
+        return videoLinkRepository.findByCourse(course);
+    }
 }

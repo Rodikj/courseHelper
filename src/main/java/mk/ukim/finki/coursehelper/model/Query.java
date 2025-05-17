@@ -1,15 +1,11 @@
 package mk.ukim.finki.coursehelper.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
-@Data
 @Entity
-@NoArgsConstructor
+public class Query {
 
-public class Query
-{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,6 +14,23 @@ public class Query
 
     private String query_text;
 
-    private String timestamp; // idk
+    private LocalDateTime timestamp;
 
+    public Query() {}
+
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public String getQuery_text() { return query_text; }
+
+    public void setQuery_text(String query_text) { this.query_text = query_text; }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
+
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 }
