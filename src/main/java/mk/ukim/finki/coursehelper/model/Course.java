@@ -1,11 +1,18 @@
 package mk.ukim.finki.coursehelper.model;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import mk.ukim.finki.coursehelper.service.CourseService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+=======
+
+import java.util.ArrayList;
+import java.util.List;
+
+>>>>>>> cc5b632 (modified everything)
 @Entity
 public class Course {
 

@@ -17,4 +17,8 @@ public interface VideoLinkService {
     List<VideoLink> getLinksByCourse(Course course);
 
 
+    // NEW: fetch all links for a specific course
+    public List<VideoLink> getLinksByCourse(Course course) {
+        return videoLinkRepository.findByCourse(course);
+    }
 }

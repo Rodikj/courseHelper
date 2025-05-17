@@ -102,6 +102,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+<<<<<<< HEAD
 @DiscriminatorValue("FILE")
 public class File extends Source {
 
@@ -116,6 +117,21 @@ public class File extends Source {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "course_id")
 //    private Course course;
+=======
+public class File {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+>>>>>>> cc5b632 (modified everything)
 
     @Column(nullable = false, length = 32)
     private String md5;
@@ -133,6 +149,13 @@ public class File extends Source {
     private boolean processed;
 
     public File() {}
+<<<<<<< HEAD
+=======
+
+    public Long getId() {
+        return id;
+    }
+>>>>>>> cc5b632 (modified everything)
 
     // getters & setters
 

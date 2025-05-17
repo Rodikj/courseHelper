@@ -72,6 +72,26 @@ import java.util.List;
 //        }
 
     @Bean
+<<<<<<< HEAD
+=======
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+//    @Bean
+//    public DefaultSecurityFilterChain securityFilterChain(
+//            HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity.csrf(csrf -> csrf.disable())
+//                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
+//        .authorizeHttpRequests(it -> it.
+//                requestMatchers("/api/**", "/h2/**", "/h2-console/**")
+//                .permitAll().anyRequest().authenticated())
+//                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .build();
+//    }
+
+    @Bean
+>>>>>>> cc5b632 (modified everything)
     public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
@@ -85,4 +105,10 @@ import java.util.List;
                 )
                 .build();
     }
+<<<<<<< HEAD
     }
+=======
+
+
+}
+>>>>>>> cc5b632 (modified everything)

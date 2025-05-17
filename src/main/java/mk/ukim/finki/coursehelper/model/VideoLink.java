@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+<<<<<<< HEAD
 @DiscriminatorValue("VIDEO")
 public class VideoLink extends Source{
 
@@ -18,6 +19,21 @@ public class VideoLink extends Source{
 //    @ManyToOne
 //    @JoinColumn(name = "course_id")
 //    private Course course;
+=======
+public class VideoLink {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+>>>>>>> cc5b632 (modified everything)
 
     private String yt_id_link;
 
@@ -33,6 +49,7 @@ public class VideoLink extends Source{
 
     public VideoLink() {}
 
+<<<<<<< HEAD
 //    public Long getId() { return id; }
 //
 //    public void setId(Long id) { this.id = id; }
@@ -44,6 +61,19 @@ public class VideoLink extends Source{
 //    public Course getCourse() { return course; }
 //
 //    public void setCourse(Course course) { this.course = course; }
+=======
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public Course getCourse() { return course; }
+
+    public void setCourse(Course course) { this.course = course; }
+>>>>>>> cc5b632 (modified everything)
 
     public String getYt_id_link() { return yt_id_link; }
 

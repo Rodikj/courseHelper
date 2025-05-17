@@ -17,6 +17,10 @@
 //}
 package mk.ukim.finki.coursehelper.repository;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cc5b632 (modified everything)
 import mk.ukim.finki.coursehelper.model.Course;
 import mk.ukim.finki.coursehelper.model.File;
 import mk.ukim.finki.coursehelper.model.User;
