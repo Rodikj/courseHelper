@@ -18,6 +18,8 @@ public class User
 
     private String name;
 
+    private String surname;
+
     private String email;
 
     @Column(nullable = false)
@@ -53,5 +55,13 @@ public class User
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }
