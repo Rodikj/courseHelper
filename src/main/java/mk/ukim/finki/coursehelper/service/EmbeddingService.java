@@ -9,6 +9,7 @@
 // import java.util.Optional;
 
 
+<<<<<<< HEAD
 // public interface EmbeddingService
 // {
 
@@ -23,3 +24,19 @@
 
 
 // }
+=======
+public interface EmbeddingService
+{
+
+
+    Embedding saveEmbedding(Embedding embedding);
+    Optional<Embedding> getEmbeddingById(Long id);
+    List<Embedding> getEmbeddingsByChunk(DocumentChunk chunk);
+    Optional<Embedding> getEmbeddingByChunkId(Long chunkId);
+    void deleteEmbedding(Long id);
+    List<Embedding> getAllEmbeddings();
+
+
+
+}
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)

@@ -1,6 +1,9 @@
 package mk.ukim.finki.coursehelper.service.impl;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 import mk.ukim.finki.coursehelper.service.PythonService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -171,7 +174,10 @@ public class PythonServiceImpl implements PythonService
 
 
 
+<<<<<<< HEAD
 =======
 public class PythonServiceImpl {
 }
 >>>>>>> 3fc453b (updated user)
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)

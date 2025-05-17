@@ -10,6 +10,7 @@ import java.util.Optional;
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 public interface CourseService
 {
 =======
@@ -46,6 +47,10 @@ public interface CourseService
         return courseRepository.findAll();
     }
 >>>>>>> cc5b632 (modified everything)
+=======
+public interface CourseService
+{
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
     Course saveCourse(Course course);
     Course createCourse(Long userId, String courseName);

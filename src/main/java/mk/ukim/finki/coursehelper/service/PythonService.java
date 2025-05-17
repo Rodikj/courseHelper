@@ -1,5 +1,6 @@
 package mk.ukim.finki.coursehelper.service;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
@@ -96,10 +97,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 >>>>>>> cc5b632 (modified everything)
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 public interface PythonService
@@ -110,10 +114,13 @@ public interface PythonService
 =======
 @Service
 public class PythonService {
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
-    // RestTemplate for making HTTP calls to the Python service
-    private final RestTemplate restTemplate = new RestTemplate();
+public interface PythonService
+{
 
+<<<<<<< HEAD
     // Base URL of your Python service (e.g. http://localhost:8000)
     @Value("${python.base-url:http://localhost:8000}")
     private String pythonBaseUrl;
@@ -171,5 +178,9 @@ public class PythonService {
 //         return restTemplate.postForObject(url, dto, ProcessAiResponseDTO.class);
 //     }
 >>>>>>> cc5b632 (modified everything)
+=======
+    Map<?, ?> uploadFile(MultipartFile file) throws Exception;
+    Map<?, ?> getTaskStatus(String taskId);
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 }
 

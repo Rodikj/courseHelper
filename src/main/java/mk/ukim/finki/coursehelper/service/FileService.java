@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Optional;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 public interface FileService {
     File saveFile(File file);
     Optional<File> getFileById(Long id);
@@ -99,8 +100,17 @@ public class FileService {
     public List<File> getFilesByCourse(Course course) {
         return fileRepository.findByCourse(course);
     }
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
+public interface FileService {
 
+    File saveFile(File file);
+    Optional<File> getFileById(Long id);
+    List<File> getFilesByUser(User user);
+    File updateFile(Long id, User user, Course course, String md5, String file_name, String file_type, LocalDate upload_date, boolean processed);
+    List<File> getAllFiles();
+    List<File> getFilesByCourse(Course course);
 
 
 >>>>>>> cc5b632 (modified everything)

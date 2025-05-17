@@ -12,11 +12,15 @@ import java.util.Optional;
 public interface UserService {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
     User createUser(String name, String surname, String email, String password);
     User login(String email, String rawPassword);
     Optional<User> getUserById(Long id);
     List<User> getAllUsers();
     User updateUser(Long id, String name, String surname, String email, String password);
+<<<<<<< HEAD
 =======
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -58,5 +62,7 @@ public interface UserService {
         return userRepository.save(user);
     }
 >>>>>>> 3fc453b (updated user)
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
 }

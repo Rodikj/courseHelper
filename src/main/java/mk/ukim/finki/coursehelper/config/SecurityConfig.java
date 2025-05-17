@@ -32,6 +32,9 @@ import java.util.List;
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 //        @Bean
 //        public DefaultSecurityFilterChain securityFilterChain(
 //                HttpSecurity httpSecurity) throws Exception {
@@ -71,6 +74,7 @@ import java.util.List;
 //            source.registerCorsConfiguration("/**", config);
 //            return source;
 //        }
+<<<<<<< HEAD
 
     @Bean
 <<<<<<< HEAD
@@ -125,48 +129,22 @@ import java.util.List;
                     .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     .build();
         }
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
-        @Bean
-        public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-            return configuration.getAuthenticationManager();
-        }
-
-        @Bean
-        public CorsFilter corsFilter() {
-            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-            CorsConfiguration config = new CorsConfiguration();
-            config.setAllowCredentials(true);
-            config.setAllowedOrigins(List.of("http://localhost:5173")); // Allow frontend
-            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-            source.registerCorsConfiguration("/**", config);
-            return new CorsFilter(source);
-        }
-
-        private UrlBasedCorsConfigurationSource corsConfigurationSource() {
-            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-            CorsConfiguration config = new CorsConfiguration();
-            config.setAllowCredentials(true);
-            config.setAllowedOrigins(List.of("http://localhost:5173")); // Frontend URL
-            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-            source.registerCorsConfiguration("/**", config);
-            return source;
-        }
-
-//    @Bean
-//    public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth ->
-//                        auth.anyRequest().permitAll()
-//                )
-//                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .headers(headers ->
-//                        // keep H2 console working if you like
-//                        headers.frameOptions(frameOptions -> frameOptions.sameOrigin())
-//                )
-//                .build();
-//    }
+    @Bean
+    public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth ->
+                        auth.anyRequest().permitAll()
+                )
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers ->
+                        // keep H2 console working if you like
+                        headers.frameOptions(frameOptions -> frameOptions.sameOrigin())
+                )
+                .build();
+    }
     }
 >>>>>>> 437882f (Cors Config)

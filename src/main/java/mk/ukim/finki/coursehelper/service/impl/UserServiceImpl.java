@@ -1,6 +1,9 @@
 package mk.ukim.finki.coursehelper.service.impl;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 import mk.ukim.finki.coursehelper.model.User;
 import mk.ukim.finki.coursehelper.repository.UserRepository;
 import mk.ukim.finki.coursehelper.service.UserService;
@@ -61,7 +64,10 @@ public class UserServiceImpl implements UserService
         user.setPassword(password);
         return userRepository.save(user);
     }
+<<<<<<< HEAD
 =======
 public class UserServiceImpl {
 >>>>>>> 3fc453b (updated user)
+=======
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 }

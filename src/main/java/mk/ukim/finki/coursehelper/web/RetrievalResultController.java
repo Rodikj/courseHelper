@@ -53,6 +53,7 @@
 //         );
 //     }
 
+<<<<<<< HEAD
 //     @GetMapping
 //     public List<RetrievalResultDTO> listAll() {
 //         return resultService.getAllResults().stream()
@@ -104,4 +105,24 @@
 //         return "✅ controller is alive";
 //     }
 // }
+=======
+    @GetMapping
+    public List<RetrievalResultDTO> listAll() {
+        return resultService.getAllResults().stream()
+                .map(r -> new RetrievalResultDTO(
+                        r.getId(),
+                        r.getQuery(),
+                        r.getDocumentChunk(),
+                        r.getScore()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/test")
+    public String smoke()
+    {
+        return "✅ controller is alive";
+    }
+}
+>>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
