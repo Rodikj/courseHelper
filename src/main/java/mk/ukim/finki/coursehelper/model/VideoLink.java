@@ -4,19 +4,20 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-public class VideoLink {
+@DiscriminatorValue("VIDEO")
+public class VideoLink extends Source{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "course_id")
+//    private Course course;
 
     private String yt_id_link;
 
@@ -32,17 +33,17 @@ public class VideoLink {
 
     public VideoLink() {}
 
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
-
-    public User getUser() { return user; }
-
-    public void setUser(User user) { this.user = user; }
-
-    public Course getCourse() { return course; }
-
-    public void setCourse(Course course) { this.course = course; }
+//    public Long getId() { return id; }
+//
+//    public void setId(Long id) { this.id = id; }
+//
+//    public User getUser() { return user; }
+//
+//    public void setUser(User user) { this.user = user; }
+//
+//    public Course getCourse() { return course; }
+//
+//    public void setCourse(Course course) { this.course = course; }
 
     public String getYt_id_link() { return yt_id_link; }
 
