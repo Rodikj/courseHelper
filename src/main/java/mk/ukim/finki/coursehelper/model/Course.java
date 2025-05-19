@@ -1,6 +1,7 @@
 package mk.ukim.finki.coursehelper.model;
 
 import jakarta.persistence.*;
+import mk.ukim.finki.coursehelper.service.CourseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Course {
     @ManyToOne
     private User user;
 
-     private String course_name;
+    private String course_name;
 
     //private String select_type_of_material;
 
