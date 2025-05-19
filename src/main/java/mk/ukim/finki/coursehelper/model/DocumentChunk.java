@@ -9,9 +9,13 @@ public class DocumentChunk {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @ManyToOne
+//    @JoinColumn(name = "file_id", nullable = false)
+//    private File file;
+
     @ManyToOne
-    @JoinColumn(name = "file_id", nullable = false)
-    private File file;
+    @JoinColumn(name = "source_id")
+    private Source source;
 
     private String chunk_text;
 
@@ -23,9 +27,12 @@ public class DocumentChunk {
 
     public void setId(Long id) { this.id = id; }
 
-    public File getFile() { return file; }
+//    public File getFile() { return file; }
+//
+//    public void setFile(File file) { this.file = file; }
 
-    public void setFile(File file) { this.file = file; }
+    public Source getSource() { return source; }
+    public void setSource(Source source) { this.source = source; }
 
     public String getChunk_text() { return chunk_text; }
 
