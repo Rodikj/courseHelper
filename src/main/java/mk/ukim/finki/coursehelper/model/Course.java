@@ -15,6 +15,8 @@ public class Course {
     @ManyToOne
     private User user;
 
+     private String course_name;
+
     //private String select_type_of_material;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

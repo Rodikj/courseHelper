@@ -60,18 +60,18 @@ const RegisterForm = () => {
     setIsLoading(true);
 
         {/*Ovaa ne e vistinskiot api endpoint, videte tocno kako treba*/}
-  //   try{
-  //     await axios.post(
-  //       "http://localhost:8085/api/user/save", {
-  //         userFirstName : userFirstName,
-  //         userLastName : userLastName,
-  //         email : email,
-  //         password : password,
-  //       });
-  //       alert ("User registration successfull");
-  //   }catch(err){
-  //     alert(err);
-  //   }
+    try{
+      await axios.post(
+        "http://localhost:8080/api/register", {
+          userFirstName : userFirstName,
+          userLastName : userLastName,
+          email : email,
+          password : password,
+        });
+        alert ("User registration successfull");
+    }catch(err){
+      alert(err);
+    }
 
 
     try {
