@@ -18,9 +18,12 @@
 package mk.ukim.finki.coursehelper.repository;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> cc5b632 (modified everything)
+=======
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
 import mk.ukim.finki.coursehelper.model.Course;
 import mk.ukim.finki.coursehelper.model.File;
 import mk.ukim.finki.coursehelper.model.User;

@@ -29,10 +29,13 @@
 package mk.ukim.finki.coursehelper.service;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 >>>>>>> cc5b632 (modified everything)
+=======
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
 import mk.ukim.finki.coursehelper.model.Course;
 import mk.ukim.finki.coursehelper.model.File;
 import mk.ukim.finki.coursehelper.model.User;
@@ -43,6 +46,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 public interface FileService {
@@ -103,18 +107,25 @@ public class FileService {
 =======
 >>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
+=======
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
 public interface FileService {
-
     File saveFile(File file);
     Optional<File> getFileById(Long id);
     List<File> getFilesByUser(User user);
-    File updateFile(Long id, User user, Course course, String md5, String file_name, String file_type, LocalDate upload_date, boolean processed);
+    File updateFile(Long id, User user, Course course,
+                    String md5, String fileName,
+                    String fileType, LocalDate uploadDate,
+                    boolean processed);
     List<File> getAllFiles();
     List<File> getFilesByCourse(Course course);
 
+<<<<<<< HEAD
 
 >>>>>>> cc5b632 (modified everything)
 
+=======
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
     /**
      * Store the multipart file’s bytes on disk (under storageLocation),
      * compute MD5, and save metadata.

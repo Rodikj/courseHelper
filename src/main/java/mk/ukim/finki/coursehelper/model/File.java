@@ -103,6 +103,7 @@ import java.time.LocalDate;
 
 @Entity
 <<<<<<< HEAD
+<<<<<<< HEAD
 @DiscriminatorValue("FILE")
 public class File extends Source {
 
@@ -132,6 +133,22 @@ public class File {
     @JoinColumn(name = "course_id")
     private Course course;
 >>>>>>> cc5b632 (modified everything)
+=======
+@DiscriminatorValue("FILE")
+public class File extends Source {
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+//
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "course_id")
+//    private Course course;
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
 
     @Column(nullable = false, length = 32)
     private String md5;
@@ -152,6 +169,7 @@ public class File {
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
     public Long getId() {
         return id;
     }
@@ -159,6 +177,10 @@ public class File {
 
     // getters & setters
 
+=======
+    // getters & setters
+
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
 //    public Long getId() {
 //        return id;
 //    }

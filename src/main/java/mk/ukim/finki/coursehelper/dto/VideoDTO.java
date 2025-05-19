@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
 ////package mk.ukim.finki.coursehelper.dto;
 ////
 ////// VideoDTO.java
@@ -17,6 +20,7 @@
 ////) {}
 ////
 //
+<<<<<<< HEAD
 //package mk.ukim.finki.coursehelper.dto;
 //
 =======
@@ -30,10 +34,15 @@
 //
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 >>>>>>> cc5b632 (modified everything)
+=======
+//package mk.ukim.finki.coursehelper.dto;
+//
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
 //public record VideoDTO(
 //        String type,
 //        String uri,
 //        String path,
+<<<<<<< HEAD
 <<<<<<< HEAD
 //        DurationDTO duration
 //) {}
@@ -43,3 +52,7 @@
 //) {}
 //
 >>>>>>> cc5b632 (modified everything)
+=======
+//        DurationDTO duration
+//) {}
+>>>>>>> 1742606 (changes with FileController and some processing ai files)
