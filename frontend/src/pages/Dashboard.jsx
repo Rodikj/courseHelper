@@ -1,70 +1,54 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Dashboard/Sidebar";
 import Header from "../components/Dashboard/Header";
+import { createCourse, getCourses } from "../components/API/api";
 import { FaTrashAlt } from "react-icons/fa";
 
 const Dashboard = () => {
   const [courses, setCourses] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newCourseName, setNewCourseName] = useState('');
-  const [username, setUsername] = useState('');
 
   useEffect(() => {
-    // Load saved courses from localStorage
-    const savedCourses = localStorage.getItem('courses');
-    if (savedCourses) {
-      setCourses(JSON.parse(savedCourses));
-    }
-
-    // Get username from localStorage
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
+    getCourses().then(setCourses);
   }, []);
-  
-  const handleCreateNewCourse = () => {
-    if (!newCourseName.trim()) return;
-    
-    const newCourse = {
-      id: Date.now(),
-      name: newCourseName,
-      dateCreated: new Date().toLocaleDateString()
-    };
-    
-    const updatedCourses = [...courses, newCourse];
-    setCourses(updatedCourses);
-    localStorage.setItem('courses', JSON.stringify(updatedCourses));
-    
-    setNewCourseName('');
-    setShowCreateModal(false);
+
+  const handleCreateCourse = async () => {
+    const userId = localStorage.getItem("userId");
+    if (!userId || !newCourseName.trim()) return;
+
+    try {
+      const newCourse = await createCourse(userId, newCourseName);
+      setCourses([...courses, newCourse]);
+      setNewCourseName("");
+      setShowCreateModal(false); // fixed typo here
+    } catch (err) {
+      console.error("Course creation failed:", err.message);
+    }
   };
-  
+
   const handleOpenCourse = (courseId, courseName) => {
-    // Navigate to course page with ID and name
     window.location.href = `/course?id=${courseId}&name=${encodeURIComponent(courseName)}`;
   };
-  
+
   const handleDeleteCourse = (courseId) => {
     const confirmed = window.confirm("Are you sure you want to delete this course?");
     if (!confirmed) return;
-  
+
     const updatedCourses = courses.filter(course => course.id !== courseId);
     setCourses(updatedCourses);
-    localStorage.setItem('courses', JSON.stringify(updatedCourses));
+    // TODO: Delete from backend (not implemented yet)
   };
 
   return (
     <div className="h-screen flex bg-white overflow-hidden">
       <Sidebar />
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col h-screen w-full md:ml-64">
         <div className="sticky top-0 z-10">
           <Header />
         </div>
 
-        {/*Content Area */}
         <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-white">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold mb-6">My Courses</h2>
@@ -84,26 +68,24 @@ const Dashboard = () => {
                 >
                   <div
                     className="text-xl md:text-2xl text-white mb-2 font-medium truncate"
-                    onClick={() => handleOpenCourse(course.id, course.name)}
+                    onClick={() => handleOpenCourse(course.id, course.courseName || course.name)}
                   >
-                    {course.name}
+                    {course.courseName || course.name}
                   </div>
                   <div className="flex justify-end">
                     <button
                       onClick={(e) => {
-                        e.stopPropagation(); // Prevent navigating when deleting
+                        e.stopPropagation();
                         handleDeleteCourse(course.id);
                       }}
-                      className="flex justify-center items-center bg-gray-300 hover:cursor-pointer hover:bg-gray-500 text-white rounded-full w-6 h-6 text-xs"
+                      className="flex justify-center items-center bg-gray-300 hover:bg-gray-500 text-white rounded-full w-6 h-6 text-xs"
                       title="Delete"
                     >
-                      <div className="text-end justify-end items-end">
-                        <FaTrashAlt />
-                      </div>
+                      <FaTrashAlt />
                     </button>
                   </div>
                   <div className="text-sm text-gray-300">
-                    {course.dateCreated}
+                    {/* Optional: backend dateCreated */}
                   </div>
                 </div>
               ))}
@@ -115,9 +97,7 @@ const Dashboard = () => {
       {showCreateModal && (
         <div className="fixed inset-0 bg-transparent backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white text-black p-4 md:p-6 rounded-xl shadow-lg w-11/12 md:w-full max-w-md mx-4">
-            <h2 className="text-xl text-blue-500 font-semibold">
-              Course Helper
-            </h2>
+            <h2 className="text-xl text-blue-500 font-semibold">Course Helper</h2>
             <h2 className="text-xl mb-4">New Course</h2>
             <input
               type="text"
@@ -125,9 +105,7 @@ const Dashboard = () => {
               className="w-full border border-gray-300 p-2 rounded mb-6 md:mb-10"
               value={newCourseName}
               onChange={(e) => setNewCourseName(e.target.value)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && handleCreateNewCourse()
-              }
+              onKeyDown={(e) => e.key === "Enter" && handleCreateCourse()}
             />
             <div className="flex justify-end gap-2">
               <button
@@ -137,7 +115,7 @@ const Dashboard = () => {
                 Cancel
               </button>
               <button
-                onClick={handleCreateNewCourse}
+                onClick={handleCreateCourse}
                 className="px-3 py-2 w-1/4 md:w-1/5 rounded-md bg-blue-600 text-white hover:bg-blue-700 hover:cursor-pointer"
               >
                 Add
@@ -148,6 +126,6 @@ const Dashboard = () => {
       )}
     </div>
   );
-}
+};
 
 export default Dashboard;

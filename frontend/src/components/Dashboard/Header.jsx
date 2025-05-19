@@ -35,18 +35,20 @@ const Header = () => {
           </svg>
         </button>
       </div> */}
-      
+
       {/* Title visible only on mobile */}
-      <div className="md:hidden text-xl font-bold text-blue-500">Course Helper</div>
-      
+      <div className="md:hidden text-xl font-bold text-blue-500">
+        Course Helper
+      </div>
+
       {/* User profile */}
       <div className="relative">
-        <button 
+        <button
           onClick={() => setShowProfileDropdown(!showProfileDropdown)}
           className="flex hover:cursor-pointer hover:opacity-85 items-center space-x-2 focus:outline-none"
         >
           <div className="bg-blue-500 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
-            {userInfo ? userInfo.firstName.charAt(0).toUpperCase() : 'U'}
+            {userInfo?.fullName?.charAt(0)?.toUpperCase() || "U"}
           </div>
         </button>
 
@@ -56,14 +58,14 @@ const Header = () => {
             {userInfo && (
               <div className="p-4 flex items-center space-x-4">
                 <div className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl">
-                  {userInfo.firstName.charAt(0).toUpperCase()}
+                  {userInfo?.fullName?.charAt(0)?.toUpperCase() || "U"}
                 </div>
                 <div>
                   <div className="font-semibold text-gray-800">
-                    {userInfo.firstName} {userInfo.lastName}
+                    {userInfo?.fullName || "User"} {userInfo?.lastName || ""}
                   </div>
                   <div className="text-sm text-gray-500">
-                    {userInfo.email}
+                    {userInfo?.email || ""}
                   </div>
                 </div>
               </div>
@@ -71,7 +73,7 @@ const Header = () => {
 
             {/* Logout Option */}
             <div className="py-1">
-              <button 
+              <button
                 onClick={handleLogout}
                 className="flex hover:cursor-pointer items-center w-full px-4 py-2 text-left hover:bg-gray-100"
               >

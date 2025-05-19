@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { IoEyeOffOutline } from "react-icons/io5";
-import { IoEyeOutline } from "react-icons/io5";
+import axios from "axios";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
-  const [userFirstName, setUserFirstName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: ""
+  });
+
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -17,109 +20,78 @@ const RegisterForm = () => {
 
   const navigate = useNavigate();
 
-  const validateForm = () => {
-    // Reset previous errors
-    setError('');
+  const handleChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
 
-    // Check if all fields are filled
-    if (!userFirstName || !userLastName || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
+  const validateForm = () => {
+    setError("");
+
+    const { name, surname, email, password } = formData;
+
+    if (!name || !surname || !email || !password || !confirmPassword) {
+      setError("Please fill in all fields");
       return false;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address');
+      setError("Please enter a valid email address");
       return false;
     }
 
-    // Password validation
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return false;
-    }
-
-    // Password strength (optional, but recommended)
     if (password.length < 8) {
-      setError('Password must be at least 8 characters long');
+      setError("Password must be at least 8 characters long");
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
       return false;
     }
 
     return true;
   };
 
-  const save = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate form
-    if (!validateForm()) {
-      return;
-    }
+
+    if (!validateForm()) return;
 
     setIsLoading(true);
-
-        {/*Ovaa ne e vistinskiot api endpoint, videte tocno kako treba*/}
-    try{
-      await axios.post(
-        "http://localhost:8080/api/register", {
-          userFirstName : userFirstName,
-          userLastName : userLastName,
-          email : email,
-          password : password,
-        });
-        alert ("User registration successfull");
-    }catch(err){
-      alert(err);
-    }
-
-
     try {
+      const response = await axios.post("http://localhost:8080/api/register", formData);
+      setSuccessMessage(`User ${response.data.name} registered successfully!`);
+      setFormData({ name: "", surname: "", email: "", password: "" });
+      setConfirmPassword("");
 
-      // Simulate registration process
       setTimeout(() => {
-        // Create user object to store in localStorage
-        const user = {
-          firstName: userFirstName,
-          lastName: userLastName,
-          email: email,
-          password: password // Note: In a real app, NEVER store passwords in plain text
-        };
-
-        // Store user details in localStorage
-        localStorage.setItem('registeredUser', JSON.stringify(user));
-
-        // Optional: Store isLoggedIn and username for dashboard
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('username', userFirstName);
-
-        // Show success message
-        setSuccessMessage('Registration successful!');
-
-        // Auto-close success message and navigate to login
-        setTimeout(() => {
-          setSuccessMessage('');
-          navigate('/login');
-        }, 1000);
-      }, 1000);
+        setSuccessMessage("");
+        navigate("/login");
+      }, 1500);
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      if (err.response && err.response.status === 400) {
+        setError("Email already in use or invalid input.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={save} className="space-y-4">
-      {/* Success Message */}
+    <form onSubmit={handleSubmit} className="space-y-4">
       {successMessage && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
           <span className="block sm:inline">{successMessage}</span>
         </div>
       )}
-
-      {/* Error Message */}
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
           <span className="block sm:inline">{error}</span>
         </div>
       )}
@@ -127,54 +99,53 @@ const RegisterForm = () => {
       <div className="flex space-x-4">
         <input
           type="text"
+          name="name"
           placeholder="First Name"
-          value={userFirstName}
-          onChange={(e) => setUserFirstName(e.target.value)}
+          value={formData.name}
+          onChange={handleChange}
           className="w-1/2 border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
         />
         <input
           type="text"
+          name="surname"
           placeholder="Last Name"
-          value={userLastName}
-          onChange={(e) => setUserLastName(e.target.value)}
+          value={formData.surname}
+          onChange={handleChange}
           className="w-1/2 border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
         />
       </div>
+
       <input
         type="email"
+        name="email"
         placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={formData.email}
+        onChange={handleChange}
         className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
         required
       />
+
       <div className="relative">
         <input
           type={showPassword ? "text" : "password"}
+          name="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
           className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-3 text-gray-600 hover:cursor-pointer"
+          className="absolute right-3 top-3 text-gray-600"
         >
-          {showPassword ? (
-            <div className="text-[24px] font-bold">
-              <IoEyeOutline />{" "}
-            </div>
-          ) : (
-            <div className="text-[24px] font-bold">
-              <IoEyeOffOutline />
-            </div>
-          )}
+          {showPassword ? <IoEyeOutline size={24} /> : <IoEyeOffOutline size={24} />}
         </button>
       </div>
+
       <div className="relative">
         <input
           type={showConfirmPassword ? "text" : "password"}
@@ -187,26 +158,20 @@ const RegisterForm = () => {
         <button
           type="button"
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          className="absolute right-3 top-3 text-gray-600 hover:cursor-pointer"
+          className="absolute right-3 top-3 text-gray-600"
         >
-          {showConfirmPassword ? (
-            <div className="text-[24px] font-bold">
-              <IoEyeOutline />{" "}
-            </div>
-          ) : (
-            <div className="text-[24px] font-bold">
-              <IoEyeOffOutline />
-            </div>
-          )}
+          {showConfirmPassword ? <IoEyeOutline size={24} /> : <IoEyeOffOutline size={24} />}
         </button>
       </div>
+
       <button
         type="submit"
         disabled={isLoading}
-        className={`w-full bg-[#2D84FF] text-white font-semibold p-3 rounded-md hover:bg-blue-600 transition duration-300 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:cursor-pointer'}`}
+        className={`w-full bg-[#2D84FF] text-white font-semibold p-3 rounded-md hover:bg-blue-600 transition duration-300 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
       >
-        {isLoading ? 'Registering...' : 'Register'}
+        {isLoading ? "Registering..." : "Register"}
       </button>
+
       <p className="text-sm text-[#7e7e7e]">
         Already have an account?{" "}
         <NavLink to="/login" className="text-blue-500 hover:underline">
