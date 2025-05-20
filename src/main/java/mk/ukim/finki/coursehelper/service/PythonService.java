@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package mk.ukim.finki.coursehelper.service;
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -41,11 +42,15 @@ package mk.ukim.finki.coursehelper.service;
 //import org.springframework.stereotype.Service;
 //import org.springframework.util.LinkedMultiValueMap;
 //import org.springframework.web.client.RestTemplate;
+=======
+//package mk.ukim.finki.coursehelper.service;
+>>>>>>> 2044283 (changes with FileController and some processing ai files)
 //import org.springframework.web.multipart.MultipartFile;
 //
 //import java.util.Map;
 //
 //
+<<<<<<< HEAD
 //import org.springframework.http.HttpEntity;
 //import org.springframework.http.HttpHeaders;
 //import org.springframework.http.MediaType;
@@ -102,10 +107,20 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
+=======
+//public interface PythonService
+//{
+//
+//    Map<?, ?> uploadFile(MultipartFile file) throws Exception;
+//    Map<?, ?> getTaskStatus(String taskId);
+//}
+//
+>>>>>>> 2044283 (changes with FileController and some processing ai files)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 public interface PythonService
 {
 
@@ -184,3 +199,13 @@ public interface PythonService
 >>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 }
 
+=======
+//package mk.ukim.finki.coursehelper.service;
+//
+//import mk.ukim.finki.coursehelper.dto.ProcessAiRequestDTO;
+//import mk.ukim.finki.coursehelper.dto.TaskResponseDTO;
+//
+//public interface PythonService {
+//    TaskResponseDTO processAi(ProcessAiRequestDTO request);
+//}
+>>>>>>> 2044283 (changes with FileController and some processing ai files)

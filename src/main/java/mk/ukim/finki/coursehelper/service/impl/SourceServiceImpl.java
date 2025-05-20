@@ -19,4 +19,12 @@ public class SourceServiceImpl implements SourceService {
     public Optional<Source> getSourceById(Long id) {
         return sourceRepo.findById(id);
     }
+
+    @Override
+    public void deleteSource(Long sourceId)
+    {
+
+        sourceRepo.deleteById(sourceId);
+
+    }
 }

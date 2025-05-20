@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //package mk.ukim.finki.coursehelper.dto;
 //
 <<<<<<< HEAD
@@ -43,3 +44,19 @@
 //        String apiKey
 //) {}
 >>>>>>> 1742606 (changes with FileController and some processing ai files)
+=======
+package mk.ukim.finki.coursehelper.dto;
+
+import java.util.List;
+
+public record ProcessAiRequestDTO(
+        String modelProvider,
+        String modelName,
+        String systemInstructionText,
+        String pdfCollectionName,
+        String docxCollectionName,
+        VideoDTO video,
+        ConversationHistoryDTO conversationHistory,
+        String apiKey
+) {}
+>>>>>>> 2044283 (changes with FileController and some processing ai files)

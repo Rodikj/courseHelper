@@ -27,11 +27,14 @@ public class Course {
 
     //private String select_type_of_material;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<File> files = new ArrayList<>();
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+//    private List<File> files = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+//    private List<VideoLink> videos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<VideoLink> videos = new ArrayList<>();
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Source> sources = new ArrayList<>();
 
     public Course() {}
 
@@ -54,19 +57,32 @@ public class Course {
 //    }
 
 
-    public List<File> getFiles() {
-        return files;
+//    public List<File> getFiles() {
+//        return files;
+//    }
+//
+//    public void setFiles(List<File> files) {
+//        this.files = files;
+//    }
+//
+//    public List<VideoLink> getVideos() {
+//        return videos;
+//    }
+//
+//    public void setVideos(List<VideoLink> videos) {
+//        this.videos = videos;
+//    }
+
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setFiles(List<File> files) {
-        this.files = files;
+    public List<Source> getSources() {
+        return sources;
     }
 
-    public List<VideoLink> getVideos() {
-        return videos;
-    }
-
-    public void setVideos(List<VideoLink> videos) {
-        this.videos = videos;
+    public void setSources(List<Source> sources) {
+        this.sources = sources;
     }
 }

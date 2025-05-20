@@ -6,10 +6,11 @@ import java.util.List;
 
 public record CourseDTO(
         Long id,
-        User user,
+        Long userId,
         String course_name,
-        List<Long> fileIds,
-        List<Long> videoLinkIds
+//        List<Long> fileIds,
+//        List<Long> videoLinkIds
+        List<Long> sourceIds
 
 ) {
 }

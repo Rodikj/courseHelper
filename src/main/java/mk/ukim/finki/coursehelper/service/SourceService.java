@@ -5,4 +5,6 @@ import java.util.Optional;
 
 public interface SourceService {
     Optional<Source> getSourceById(Long id);
+
+    void deleteSource(Long sourceId);
 }
