@@ -16,6 +16,7 @@ public interface CourseService
     Course createCourse(Long userId, String courseName);
     Optional<Course> getCourseById(Long id);
     List<Course> getAllCourses();
+    void deleteCourse(Long id);
 
 
 }

@@ -1,4 +1,4 @@
-////package mk.ukim.finki.coursehelper.dto;
+package mk.ukim.finki.coursehelper.dto;
 ////
 ////// VideoDTO.java
 ////
@@ -18,9 +18,9 @@
 //
 //package mk.ukim.finki.coursehelper.dto;
 //
-//public record VideoDTO(
-//        String type,
-//        String uri,
-//        String path,
-//        DurationDTO duration
-//) {}
+public record VideoDTO(
+        String type,
+        String uri,
+        String path,
+        DurationDTO duration
+) {}
