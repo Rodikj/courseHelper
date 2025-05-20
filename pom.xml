@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -97,13 +97,6 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 1742606 (changes with FileController and some processing ai files)
             <!-- Spring Boot Starter Web, Data JPA, etc. assumed already present -->
             <dependency>
 
@@ -112,16 +105,6 @@
                     <version>1.15</version>
 
             </dependency>
-
-
-
-
-
-<<<<<<< HEAD
-=======
->>>>>>> cc5b632 (modified everything)
-=======
->>>>>>> 1742606 (changes with FileController and some processing ai files)
 
     </dependencies>
 

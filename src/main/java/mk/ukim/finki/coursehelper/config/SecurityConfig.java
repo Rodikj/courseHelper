@@ -31,10 +31,6 @@ import java.util.List;
             return new BCryptPasswordEncoder();
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 //        @Bean
 //        public DefaultSecurityFilterChain securityFilterChain(
 //                HttpSecurity httpSecurity) throws Exception {
@@ -74,63 +70,6 @@ import java.util.List;
 //            source.registerCorsConfiguration("/**", config);
 //            return source;
 //        }
-<<<<<<< HEAD
-
-    @Bean
-<<<<<<< HEAD
-=======
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-//    @Bean
-//    public DefaultSecurityFilterChain securityFilterChain(
-//            HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity.csrf(csrf -> csrf.disable())
-//                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
-//        .authorizeHttpRequests(it -> it.
-//                requestMatchers("/api/**", "/h2/**", "/h2-console/**")
-//                .permitAll().anyRequest().authenticated())
-//                .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .build();
-//    }
-
-    @Bean
->>>>>>> cc5b632 (modified everything)
-    public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth ->
-                        auth.anyRequest().permitAll()
-                )
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .headers(headers ->
-                        // keep H2 console working if you like
-                        headers.frameOptions(frameOptions -> frameOptions.sameOrigin())
-                )
-                .build();
-    }
-<<<<<<< HEAD
-    }
-=======
-
-
-}
->>>>>>> cc5b632 (modified everything)
-=======
-        @Bean
-        public DefaultSecurityFilterChain securityFilterChain(
-                HttpSecurity httpSecurity) throws Exception {
-            return httpSecurity.csrf(csrf -> csrf.disable())
-                    .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                    .csrf(csrf -> csrf.disable())
-                    .authorizeHttpRequests(it -> it.requestMatchers("/rest/**", "/rest/**").permitAll()
-                            .anyRequest().authenticated())
-                    .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                    .build();
-        }
-=======
->>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
     @Bean
     public DefaultSecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -147,4 +86,3 @@ import java.util.List;
                 .build();
     }
     }
->>>>>>> 437882f (Cors Config)

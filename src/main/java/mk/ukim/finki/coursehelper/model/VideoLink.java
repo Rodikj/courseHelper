@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-<<<<<<< HEAD
-<<<<<<< HEAD
 @DiscriminatorValue("VIDEO")
 public class VideoLink extends Source{
 
@@ -20,37 +18,6 @@ public class VideoLink extends Source{
 //    @ManyToOne
 //    @JoinColumn(name = "course_id")
 //    private Course course;
-=======
-public class VideoLink {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
->>>>>>> cc5b632 (modified everything)
-=======
-@DiscriminatorValue("VIDEO")
-public class VideoLink extends Source{
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "course_id")
-//    private Course course;
->>>>>>> 1742606 (changes with FileController and some processing ai files)
 
     private String yt_id_link;
 
@@ -66,10 +33,6 @@ public class VideoLink extends Source{
 
     public VideoLink() {}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 1742606 (changes with FileController and some processing ai files)
 //    public Long getId() { return id; }
 //
 //    public void setId(Long id) { this.id = id; }
@@ -81,22 +44,6 @@ public class VideoLink extends Source{
 //    public Course getCourse() { return course; }
 //
 //    public void setCourse(Course course) { this.course = course; }
-<<<<<<< HEAD
-=======
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
-
-    public User getUser() { return user; }
-
-    public void setUser(User user) { this.user = user; }
-
-    public Course getCourse() { return course; }
-
-    public void setCourse(Course course) { this.course = course; }
->>>>>>> cc5b632 (modified everything)
-=======
->>>>>>> 1742606 (changes with FileController and some processing ai files)
 
     public String getYt_id_link() { return yt_id_link; }
 

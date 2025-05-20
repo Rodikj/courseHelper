@@ -1,22 +1,5 @@
-// package mk.ukim.finki.coursehelper.model;
+package mk.ukim.finki.coursehelper.model;
 
-<<<<<<< HEAD
-// import jakarta.persistence.*;
-// import lombok.Data;
-// import lombok.NoArgsConstructor;
-
-// @Entity
-// public class API_Log {
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
-
-//     //user id
-
-//     //endpoint, method, response_time, status_code, timestamp
-//     //more info
-// }
-=======
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -78,4 +61,3 @@ public class API_Log {
         this.timestamp = timestamp;
     }
 }
->>>>>>> cc5b632 (modified everything)

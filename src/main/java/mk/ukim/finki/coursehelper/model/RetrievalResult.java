@@ -1,6 +1,5 @@
 // package mk.ukim.finki.coursehelper.model;
 
-<<<<<<< HEAD
 // import jakarta.persistence.*;
 
 // @Entity
@@ -9,24 +8,17 @@
 //     @Id
 //     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //     private Long id;
-=======
-import jakarta.persistence.*;
 
-@Entity
-public class RetrievalResult {
+// //     // ids , more info
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
->>>>>>> cc5b632 (modified everything)
+// //     public RetrievalResult() {}
 
-//     // ids , more info
+// //     public Long getId() { return id; }
 
 //     public RetrievalResult() {}
 
 //     public Long getId() { return id; }
 
-<<<<<<< HEAD
 //     public void setId(Long id) { this.id = id; }
 
 //     public Query getQuery() { return query; }
@@ -41,23 +33,3 @@ public class RetrievalResult {
 
 //     public void setScore(double score) { this.score = score; }
 // }
-=======
-    public RetrievalResult() {}
-
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
-
-    public Query getQuery() { return query; }
-
-    public void setQuery(Query query) { this.query = query; }
-
-    public DocumentChunk getDocumentChunk() { return documentChunk; }
-
-    public void setDocumentChunk(DocumentChunk documentChunk) { this.documentChunk = documentChunk; }
-
-    public double getScore() { return score; }
-
-    public void setScore(double score) { this.score = score; }
-}
->>>>>>> cc5b632 (modified everything)

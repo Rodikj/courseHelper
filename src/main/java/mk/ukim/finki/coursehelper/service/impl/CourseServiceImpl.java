@@ -51,4 +51,11 @@ public class CourseServiceImpl implements CourseService
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
     }
+
+    @Override
+    public List<Course> getCoursesForUser(Long userId) {
+        User user = userService.getUserById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found: " + userId));
+        return courseRepository.findByUser(user);
+    }
 }

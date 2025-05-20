@@ -29,4 +29,3 @@ public abstract class Source {
     public Course getCourse() { return course; }
     public void setCourse(Course course) { this.course = course; }
 }
-

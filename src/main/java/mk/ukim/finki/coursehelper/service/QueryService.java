@@ -9,7 +9,6 @@
 // import java.util.Optional;
 
 
-<<<<<<< HEAD
 // public interface QueryService
 // {
 
@@ -20,15 +19,3 @@
 //     void deleteQuery(Long id);
 //     List<Query> getAllQueries();
 // }
-=======
-public interface QueryService
-{
-
-
-    Query saveQuery(Query query);
-    Optional<Query> getQueryById(Long id);
-    List<Query> getQueriesForUser(User user);
-    void deleteQuery(Long id);
-    List<Query> getAllQueries();
-}
->>>>>>> f93b757 (some reshuffling with service more like wp with impl)

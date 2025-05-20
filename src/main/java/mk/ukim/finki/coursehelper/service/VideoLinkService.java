@@ -17,11 +17,4 @@ public interface VideoLinkService {
     List<VideoLink> getLinksByCourse(Course course);
 
 
-<<<<<<< HEAD
-    // NEW: fetch all links for a specific course
-    public List<VideoLink> getLinksByCourse(Course course) {
-        return videoLinkRepository.findByCourse(course);
-    }
-=======
->>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 }

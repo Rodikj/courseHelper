@@ -9,7 +9,6 @@
 // import java.util.Optional;
 
 
-<<<<<<< HEAD
 // public interface ApiLogService {
 
 //     API_Log saveLog(API_Log log);
@@ -19,14 +18,3 @@
 //     List<API_Log> getAllLogs();
 
 // }
-=======
-public interface ApiLogService {
-
-    API_Log saveLog(API_Log log);
-    Optional<API_Log> getLogById(Long id);
-    List<API_Log> getLogsForUser(User user);
-    void deleteLog(Long id);
-    List<API_Log> getAllLogs();
-
-}
->>>>>>> f93b757 (some reshuffling with service more like wp with impl)

@@ -9,54 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 public interface CourseService
 {
-=======
-    private final CourseRepository courseRepository;
-    private final UserService userService;
-
-    public CourseService(CourseRepository courseRepository, UserService userService) {
-        this.courseRepository = courseRepository;
-        this.userService = userService;
-    }
-
-    public Course saveCourse(Course course) {
-        return courseRepository.save(course);
-    }
-    // In CourseService.java
-
-    public Course createCourse(Long userId, String courseName)
-    {
-        User user = userService.getUserById(userId).orElseThrow(()->new RuntimeException("User not found"));
-        Course course = new Course();
-        course.setUser(user);
-        course.setCourse_name(courseName);
-        return saveCourse(course);
-    }
-
-
-    public Optional<Course> getCourseById(Long id)
-    {
-        return courseRepository.findById(id);
-    }
-
-    public List<Course> getAllCourses()
-    {
-        return courseRepository.findAll();
-    }
->>>>>>> cc5b632 (modified everything)
-=======
-public interface CourseService
-{
->>>>>>> f93b757 (some reshuffling with service more like wp with impl)
 
     Course saveCourse(Course course);
     Course createCourse(Long userId, String courseName);
     Optional<Course> getCourseById(Long id);
     List<Course> getAllCourses();
     void deleteCourse(Long id);
-
+    List<Course> getCoursesForUser(Long userId);
 
 }

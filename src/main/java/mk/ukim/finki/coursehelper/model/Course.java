@@ -1,18 +1,10 @@
 package mk.ukim.finki.coursehelper.model;
 
 import jakarta.persistence.*;
-<<<<<<< HEAD
-import mk.ukim.finki.coursehelper.service.CourseService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-=======
-
-import java.util.ArrayList;
-import java.util.List;
-
->>>>>>> cc5b632 (modified everything)
 @Entity
 public class Course {
 
@@ -21,6 +13,7 @@ public class Course {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private String course_name;

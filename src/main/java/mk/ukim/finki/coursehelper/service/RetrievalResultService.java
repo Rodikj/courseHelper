@@ -10,7 +10,6 @@
 // import java.util.Optional;
 
 
-<<<<<<< HEAD
 // public interface RetrievalResultService {
 
 //     RetrievalResult saveResult(RetrievalResult result);
@@ -21,15 +20,3 @@
 //     void deleteResult(Long id);
 //     List<RetrievalResult> getAllResults();
 // }
-=======
-public interface RetrievalResultService {
-
-    RetrievalResult saveResult(RetrievalResult result);
-    Optional<RetrievalResult> getResultById(Long id);
-    List<RetrievalResult> getResultsByQuery(Query query);
-    List<RetrievalResult> getResultsByChunk(DocumentChunk chunk);
-    Optional<RetrievalResult> getResultByQueryAndChunk(Query query, DocumentChunk chunk);
-    void deleteResult(Long id);
-    List<RetrievalResult> getAllResults();
-}
->>>>>>> f93b757 (some reshuffling with service more like wp with impl)

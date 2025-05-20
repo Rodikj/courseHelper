@@ -35,10 +35,18 @@ public class CourseController {
         return toDto(c);
     }
 
-    /** List all courses */
+//    /** List all courses */
+//    @GetMapping
+//    public List<CourseDTO> listAll() {
+//        return courseService.getAllCourses().stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
+
+
     @GetMapping
-    public List<CourseDTO> listAll() {
-        return courseService.getAllCourses().stream()
+    public List<CourseDTO> listByUser(@RequestParam Long userId) {
+        return courseService.getCoursesForUser(userId).stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
