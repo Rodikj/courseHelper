@@ -10,7 +10,10 @@ const Dashboard = () => {
   const [newCourseName, setNewCourseName] = useState('');
 
   useEffect(() => {
-    getCourses().then(setCourses);
+    getCourses().then(data => {
+      console.log("Fetched courses:", data); // Debug: Log fetched courses
+      setCourses(data);
+    });
   }, []);
 
   const handleCreateCourse = async () => {
@@ -19,9 +22,17 @@ const Dashboard = () => {
 
     try {
       const newCourse = await createCourse(userId, newCourseName);
-      setCourses([...courses, newCourse]);
+      console.log("Created course:", newCourse); // Debug: Log the newly created course
+      
+      // Ensure the new course has the correct property for name
+      const formattedNewCourse = {
+        ...newCourse,
+        name: newCourse.name || newCourse.courseName || newCourseName // Fallback to ensure name exists
+      };
+      
+      setCourses([...courses, formattedNewCourse]);
       setNewCourseName("");
-      setShowCreateModal(false); // fixed typo here
+      setShowCreateModal(false);
     } catch (err) {
       console.error("Course creation failed:", err.message);
     }
@@ -61,34 +72,41 @@ const Dashboard = () => {
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-8 md:mt-10">
-              {courses.map((course, index) => (
-                <div
-                  key={index}
-                  className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer rounded-2xl p-4 md:p-6 shadow hover:shadow-xl transition"
-                >
+              {courses.map((course, index) => {
+                // Debug: Log each course object
+                console.log(`Course ${index}:`, course);
+                
+                // Determine the course name with fallbacks
+                const displayName = course.name || course.courseName || course.course_name || "Untitled Course";
+                
+                return (
                   <div
-                    className="text-xl md:text-2xl text-white mb-2 font-medium truncate"
-                    onClick={() => handleOpenCourse(course.id, course.courseName || course.name)}
+                    key={index}
+                    className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer rounded-2xl p-4 md:p-6 shadow hover:shadow-xl transition"
+                    onClick={() => handleOpenCourse(course.id, displayName)}
                   >
-                    {course.courseName || course.name}
+                    <div className="text-xl md:text-2xl text-white mb-2 font-medium truncate">
+                      {displayName}
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteCourse(course.id);
+                        }}
+                        className="flex justify-center items-center bg-gray-300 hover:bg-gray-500 text-white rounded-full w-6 h-6 text-xs"
+                        title="Delete"
+                      >
+                        <FaTrashAlt />
+                      </button>
+                    </div>
+                    <div className="text-sm text-gray-300">
+                      {/* Optional: backend dateCreated */}
+                      {course.createdAt && new Date(course.createdAt).toLocaleDateString()}
+                    </div>
                   </div>
-                  <div className="flex justify-end">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteCourse(course.id);
-                      }}
-                      className="flex justify-center items-center bg-gray-300 hover:bg-gray-500 text-white rounded-full w-6 h-6 text-xs"
-                      title="Delete"
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </div>
-                  <div className="text-sm text-gray-300">
-                    {/* Optional: backend dateCreated */}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -106,6 +124,7 @@ const Dashboard = () => {
               value={newCourseName}
               onChange={(e) => setNewCourseName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleCreateCourse()}
+              autoFocus
             />
             <div className="flex justify-end gap-2">
               <button
@@ -117,6 +136,7 @@ const Dashboard = () => {
               <button
                 onClick={handleCreateCourse}
                 className="px-3 py-2 w-1/4 md:w-1/5 rounded-md bg-blue-600 text-white hover:bg-blue-700 hover:cursor-pointer"
+                disabled={!newCourseName.trim()}
               >
                 Add
               </button>

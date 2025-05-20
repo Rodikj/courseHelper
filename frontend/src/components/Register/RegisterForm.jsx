@@ -64,6 +64,18 @@ const RegisterForm = () => {
     setIsLoading(true);
     try {
       const response = await axios.post("http://localhost:8080/api/register", formData);
+      
+      // After successful registration, store the user data
+      const userData = {
+        name: formData.name,
+        surname: formData.surname,
+        email: formData.email,
+        id: response.data.id || ''
+      };
+      
+      // Store for future login reference
+      localStorage.setItem("registeredUser", JSON.stringify(userData));
+      
       setSuccessMessage(`User ${response.data.name} registered successfully!`);
       setFormData({ name: "", surname: "", email: "", password: "" });
       setConfirmPassword("");

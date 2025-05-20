@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
@@ -37,14 +40,24 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
-        try{
+    public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody LoginDTO loginDTO,
+            HttpServletRequest request) {
+        try {
             User user = userService.login(loginDTO.email(), loginDTO.password());
+
+            // Invalidate any existing session
+            HttpSession oldSession = request.getSession(false);
+            if (oldSession != null) {
+                oldSession.invalidate();
+            }
+
+            // Create a new session and set the user ID
+            HttpSession newSession = request.getSession(true);
+            newSession.setAttribute("userId", user.getId());
 
             LoginResponseDTO responseDTO = new LoginResponseDTO(
                     user.getId(),
-                    user.getEmail()
-            );
+                    user.getEmail());
 
             return ResponseEntity.ok(responseDTO);
         } catch (RuntimeException e) {

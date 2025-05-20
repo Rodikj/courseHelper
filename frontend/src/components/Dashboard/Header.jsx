@@ -13,16 +13,68 @@ const Header = () => {
     if (storedUser) {
       setUserInfo(JSON.parse(storedUser));
     }
+    
+    // Also check for individual fields in case they're stored separately
+    const fullName = localStorage.getItem('fullName');
+    const email = localStorage.getItem('email');
+    const name = localStorage.getItem('name');
+    const surname = localStorage.getItem('surname');
+    
+    if (!storedUser && (fullName || email || name || surname)) {
+      // If registeredUser isn't available but individual fields are,
+      // create a user object from them
+      setUserInfo({
+        name: name || fullName || "",
+        surname: surname || "",
+        email: email || ""
+      });
+    }
   }, []);
 
   const handleLogout = () => {
     // Remove authentication-related items from localStorage
     localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('email');
+    localStorage.removeItem('fullName');
+    localStorage.removeItem('name');
+    localStorage.removeItem('surname');
     localStorage.removeItem('registeredUser');
     
     // Redirect to login page
     navigate('/login');
+  };
+
+  // Get initials for the avatar
+  const getInitials = () => {
+    if (userInfo?.name) {
+      return userInfo.name.charAt(0).toUpperCase();
+    } else if (userInfo?.firstName) {
+      return userInfo.firstName.charAt(0).toUpperCase();
+    } else if (userInfo?.fullName) {
+      return userInfo.fullName.charAt(0).toUpperCase();
+    }
+    return "U";
+  };
+
+  // Get display name with proper capitalization
+  const getDisplayName = () => {
+    let displayName = "User";
+    
+    if (userInfo?.name && userInfo?.surname) {
+      // Capitalize first letters of both name and surname
+      const capitalizedName = userInfo.name.charAt(0).toUpperCase() + userInfo.name.slice(1);
+      const capitalizedSurname = userInfo.surname.charAt(0).toUpperCase() + userInfo.surname.slice(1);
+      displayName = `${capitalizedName} ${capitalizedSurname}`;
+    } else if (userInfo?.firstName && userInfo?.lastName) {
+      displayName = `${userInfo.firstName} ${userInfo.lastName}`;
+    } else if (userInfo?.fullName) {
+      displayName = userInfo.fullName;
+    } else if (userInfo?.name) {
+      displayName = userInfo.name.charAt(0).toUpperCase() + userInfo.name.slice(1);
+    }
+    
+    return displayName;
   };
 
   return (
@@ -48,7 +100,7 @@ const Header = () => {
           className="flex hover:cursor-pointer hover:opacity-85 items-center space-x-2 focus:outline-none"
         >
           <div className="bg-blue-500 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
-            {userInfo?.fullName?.charAt(0)?.toUpperCase() || "U"}
+            {getInitials()}
           </div>
         </button>
 
@@ -58,14 +110,14 @@ const Header = () => {
             {userInfo && (
               <div className="p-4 flex items-center space-x-4">
                 <div className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl">
-                  {userInfo?.fullName?.charAt(0)?.toUpperCase() || "U"}
+                  {getInitials()}
                 </div>
-                <div>
-                  <div className="font-semibold text-gray-800">
-                    {userInfo?.fullName || "User"} {userInfo?.lastName || ""}
+                <div className="overflow-hidden">
+                  <div className="font-semibold text-gray-800 truncate">
+                    {getDisplayName()}
                   </div>
-                  <div className="text-sm text-gray-500">
-                    {userInfo?.email || ""}
+                  <div className="text-sm text-gray-500 truncate">
+                    {userInfo.email || ""}
                   </div>
                 </div>
               </div>

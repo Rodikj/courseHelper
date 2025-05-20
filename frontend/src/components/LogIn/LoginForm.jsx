@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -30,39 +31,78 @@ const LoginForm = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch("http://localhost:8080/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-                credentials: 'include' // allow session cookies (if backend uses them)
-            });
+            // Using axios instead of fetch for login
+            const response = await axios.post(
+                "http://localhost:8080/api/login", 
+                { email, password },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true // equivalent to credentials: 'include'
+                }
+            );
 
-            if (response.ok) {
-                const data = await response.json();
+            // Axios automatically throws for error status codes, so if we get here, it was successful
+            // Also, axios puts the response data directly in response.data
+            const data = response.data;
+                
+            try {
+                // Attempt to get more user data - ideally you'd have an endpoint for this
+                // For now, we'll check if there's a registeredUser with the same email
+                const storedUser = localStorage.getItem('registeredUser');
+                let userData = null;
+                
+                if (storedUser) {
+                    const parsedUser = JSON.parse(storedUser);
+                    // If this is the same user that was stored before
+                    if (parsedUser.email === email) {
+                        userData = parsedUser;
+                    }
+                }
+                
+                // If we couldn't get stored user data, create minimal object
+                if (!userData) {
+                    // Extract a better name from email (capitalize first letter)
+                    const emailName = email.split('@')[0];
+                    const capitalizedName = emailName.charAt(0).toUpperCase() + emailName.slice(1);
+                    
+                    userData = {
+                        id: data.id,
+                        email: data.email,
+                        name: capitalizedName,
+                        surname: ''
+                    };
+                }
 
-                // Save user session info in localStorage (optional)
+                // Save user data in localStorage
                 localStorage.setItem("userId", data.id);
                 localStorage.setItem("email", data.email);
+                localStorage.setItem("name", userData.name);
+                localStorage.setItem("surname", userData.surname);
                 localStorage.setItem("isLoggedIn", "true");
-                localStorage.setItem("fullName", data.fullName || '');
-
-                localStorage.setItem("registeredUser", JSON.stringify({
-                    firstName: data.name,     // if your backend sends 'name'
-                    lastName: "",             // or fetch surname if available
-                    email: data.email,
-                  }));
+                
+                // Store the user object for Header to use
+                localStorage.setItem("registeredUser", JSON.stringify(userData));
 
                 // Redirect to dashboard
                 navigate("/dashboard");
-            } else {
-                const errorData = await response.json();
-                setError(errorData.message || "Invalid email or password");
+            } catch (fetchError) {
+                console.error("Error fetching user details:", fetchError);
+                // Still save basic login info and proceed
+                localStorage.setItem("userId", data.id);
+                localStorage.setItem("email", data.email);
+                localStorage.setItem("isLoggedIn", "true");
+                navigate("/dashboard");
             }
         } catch (err) {
             console.error("Login error:", err);
-            setError("An unexpected error occurred. Please try again.");
+            // Axios errors contain response data in err.response.data
+            if (err.response && err.response.data) {
+                setError(err.response.data.message || "Invalid email or password");
+            } else {
+                setError("An unexpected error occurred. Please try again.");
+            }
         } finally {
             setIsLoading(false);
         }
