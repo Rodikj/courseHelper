@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Dashboard/Sidebar";
 import Header from "../components/Dashboard/Header";
 import { createCourse, getCourses } from "../components/API/api";
+import { deleteCourse } from "../components/API/api";
 import { FaTrashAlt } from "react-icons/fa";
+import axios from "axios";
+
 
 const Dashboard = () => {
   const [courses, setCourses] = useState([]);
@@ -10,10 +13,28 @@ const Dashboard = () => {
   const [newCourseName, setNewCourseName] = useState('');
 
   useEffect(() => {
-    getCourses().then(data => {
-      console.log("Fetched courses:", data); // Debug: Log fetched courses
-      setCourses(data);
-    });
+    const fetchCourses = async () => {
+      try {
+        const userId = localStorage.getItem("userId"); // make sure it's set
+        if (!userId) return;
+  
+        const response = await axios.get(`http://localhost:8080/api/courses?userId=${userId}`, {
+          withCredentials: true,
+        });
+  
+        const courseList = Array.isArray(response.data)
+          ? response.data
+          : Array.isArray(response.data.courses)
+            ? response.data.courses
+            : [];
+  
+        setCourses(courseList);
+      } catch (err) {
+        console.error("Error fetching courses:", err);
+      }
+    };
+  
+    fetchCourses();
   }, []);
 
   const handleCreateCourse = async () => {
@@ -42,13 +63,19 @@ const Dashboard = () => {
     window.location.href = `/course?id=${courseId}&name=${encodeURIComponent(courseName)}`;
   };
 
-  const handleDeleteCourse = (courseId) => {
+  const handleDeleteCourse = async (courseId) => {
     const confirmed = window.confirm("Are you sure you want to delete this course?");
     if (!confirmed) return;
-
-    const updatedCourses = courses.filter(course => course.id !== courseId);
-    setCourses(updatedCourses);
-    // TODO: Delete from backend (not implemented yet)
+  
+    try {
+      await deleteCourse(courseId);
+      // Remove course from state only after successful deletion
+      const updatedCourses = courses.filter(course => course.id !== courseId);
+      setCourses(updatedCourses);
+    } catch (error) {
+      console.error("Failed to delete course:", error);
+      alert("Failed to delete the course. Please try again.");
+    }
   };
 
   return (
@@ -72,7 +99,7 @@ const Dashboard = () => {
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-8 md:mt-10">
-              {courses.map((course, index) => {
+            {courses.map((course, index) => {
                 // Debug: Log each course object
                 console.log(`Course ${index}:`, course);
                 

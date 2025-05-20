@@ -1,4 +1,10 @@
+import axios from "axios";
+
 const API_URL = "http://localhost:8080/api/courses";
+
+export const deleteCourse = async (courseId) => {
+  return axios.delete(`http://localhost:8080/api/courses/${courseId}`, { withCredentials: true });
+};
 
 export const createCourse = async (userId, courseName) => {
   const response = await fetch(`${API_URL}?userId=${userId}&courseName=${encodeURIComponent(courseName)}`, {
