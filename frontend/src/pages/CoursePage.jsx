@@ -5,6 +5,7 @@ import ToolsSection from '../components/CoursePage/ToolsSection';
 import ChatSection from '../components/CoursePage/ChatSection';
 import UploadModal from '../components/CoursePage/UploadModal';
 
+
 const CoursePage = () => {
   const [sources, setSources] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
@@ -13,6 +14,7 @@ const CoursePage = () => {
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [courseName, setCourseName] = useState('');
   const [courseId, setCourseId] = useState(null);
+  const currentUserId = localStorage.getItem('userId');
   const [activeMobileTab, setActiveMobileTab] = useState('chat');
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -34,17 +36,19 @@ const CoursePage = () => {
         setCourseName(decodeURIComponent(name));
       } else {
         // Try to get course name from localStorage as a fallback
-        const savedCourses = localStorage.getItem('courses');
+        const savedCourses = localStorage.getItem("courses");
         if (savedCourses) {
           const coursesList = JSON.parse(savedCourses);
-          const course = coursesList.find(c => c.id.toString() === id.toString());
+          const course = coursesList.find(
+            (c) => c.id.toString() === id.toString()
+          );
           if (course) {
             setCourseName(course.name);
           } else {
-            setCourseName(`Course ${id}`); // Default fallback
+            setCourseName(`Course ${id}`);
           }
         } else {
-          setCourseName(`Course ${id}`); // Default fallback
+          setCourseName(`Course ${id}`);
         }
       }
       
@@ -352,13 +356,19 @@ const CoursePage = () => {
       {/* Upload modal */}
       {uploadModalOpen && (
         <UploadModal
-          onClose={() => setUploadModalOpen(false)}
-          onUploadFile={handleUploadFile}
-          onAddUrl={handleAddUrl}
-          onAddTextSource={handleAddTextSource}
-          selectedFile={selectedFile}
-          fileInputRef={fileInputRef}
-        />
+        onClose={() => setUploadModalOpen(false)}
+        userId={currentUserId}
+        selectedCourseId={courseId}
+        onAddUrl={handleAddUrl}
+        onAddTextSource={handleAddTextSource}
+        onUploadSuccess={(uploadedFile) => {
+          setSources((prev) => [...prev, {
+            id: uploadedFile.id,
+            name: uploadedFile.fileName,
+            type: 'pdf'
+          }]);
+        }}
+      />
       )}
     </div>
   );
