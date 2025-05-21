@@ -1,46 +1,32 @@
-version: '3.8'
+version: "3.8"
 
 services:
   app:
     build: .
     ports:
       - "8000:8000"
-<<<<<<< HEAD
-=======
-    env_file:
-      - .env
->>>>>>> 143d6af (Initial Python service commit)
     volumes:
-      - uploads_data:/app/uploads  # Mount the uploads directory
+      - uploads_data:/app/uploads # Mount the uploads directory
     depends_on:
       - redis
-<<<<<<< HEAD
       - qdrant
-=======
->>>>>>> 143d6af (Initial Python service commit)
 
   redis:
     image: redis:alpine
     ports:
       - "6379:6379"
-<<<<<<< HEAD
     # volumes:
-    #   - redis_data:/data 
+    #   - redis_data:/data
 
   qdrant:
     image: qdrant/qdrant
     ports:
-      - "6333:6333"  # REST API
-      - "6334:6334"  # gRPC
+      - "6333:6333" # REST API
+      - "6334:6334" # gRPC
     # volumes:
     #   - qdrant_data:/qdrant/storage
 
 volumes:
   uploads_data:
-  redis_data:     # Persistent Redis storage
-  qdrant_data:    # Persistent Qdrant storage
-=======
-
-volumes:
-  uploads_data:  # Define the named volume
->>>>>>> 143d6af (Initial Python service commit)
+  redis_data: # Persistent Redis storage
+  qdrant_data: # Persistent Qdrant storage

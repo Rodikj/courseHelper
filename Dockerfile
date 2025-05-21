@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Stage 1: builder
 FROM python:3.10-slim AS builder
 WORKDIR /app
@@ -44,31 +43,6 @@ COPY original_files_for_patching/files.py /usr/local/lib/python3.10/site-package
 RUN chmod -R 755 /app
 
 EXPOSE 8000
-<<<<<<< HEAD
-=======
-FROM python:3.10
-
-WORKDIR /app
-
-# Copy and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
-COPY . .
-
-# Replace specific package files with modified versions
-COPY original_files_for_patching/_api_client.py /usr/local/lib/python3.10/site-packages/google/genai/_api_client.py
-COPY original_files_for_patching/files.py /usr/local/lib/python3.10/site-packages/google/genai/files.py
-
-# Expose FastAPI port
-EXPOSE 8000
-
-# Start FastAPI and Celery together
->>>>>>> 143d6af (Initial Python service commit)
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 & celery -A celery_worker worker --loglevel=info"]
-=======
 
 # Use shell form CMD for better signal handling
 CMD uvicorn main:app --host 0.0.0.0 --port 8000 & celery -A celery_worker worker --loglevel=info
->>>>>>> 933d357 (Added DOCX and Flash Cards implementations)

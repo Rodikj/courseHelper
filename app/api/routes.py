@@ -2,12 +2,8 @@ from fastapi import FastAPI, APIRouter, UploadFile, Form, HTTPException
 from pydantic import ValidationError
 from celery.result import AsyncResult
 from app.models.request import AIRequest
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 from app.models.video import Video
 from app.services.flash_card_service import create_flash_cards_service
->>>>>>> 933d357 (Added DOCX and Flash Cards implementations)
 from celery_worker import (
     process_ai_request_task,
     upload_file_task,
@@ -20,17 +16,8 @@ from app.models.request import UriRequest
 from app.models.enums import UriProvider, FileTypeFastAPI
 # from app.utils.upload_video_dependency_util import video_json_dependency
 from typing import Optional
-<<<<<<< HEAD
-=======
-from celery_worker import process_ai_request_task, upload_file_task, create_video_uri_using_gemini_task  # Import the registered task, not the function
-import uuid
-from app.models.request import UriRequest
-from app.models.enums import UriProvider
->>>>>>> 143d6af (Initial Python service commit)
-=======
 from app.models.flash_cards import FlashCardList
 import json
->>>>>>> 933d357 (Added DOCX and Flash Cards implementations)
 
 router = APIRouter()
 
@@ -47,20 +34,11 @@ async def get_task_status(task_id: str):
     return {"task_id": task_id, "status": task_result.status, "result": task_result.result}
 
 @router.post("/upload/")
-<<<<<<< HEAD
-<<<<<<< HEAD
-async def upload_file(file: UploadFile, api_key: Optional[str] = None):
-=======
-async def upload_file(file: UploadFile):
->>>>>>> 143d6af (Initial Python service commit)
-=======
 async def upload_file(video: Optional[str] = Form(None), file: Optional[UploadFile] = None, api_key: Optional[str] = None):
->>>>>>> 933d357 (Added DOCX and Flash Cards implementations)
     """
     Endpoint to handle file uploads
     
     Args:
-<<<<<<< HEAD
 
         api_key (Optional[str]): API key for summarisation and ingestion in Qdrant vector database, and generation of Flash Cards. 
 
@@ -74,23 +52,9 @@ async def upload_file(video: Optional[str] = Form(None), file: Optional[UploadFi
             "uri": "https://www.youtube.com/watch?v=fWjsdhR3z3c"
         }
         
-=======
-        file (UploadFile): Uploaded file object
-    
->>>>>>> 143d6af (Initial Python service commit)
     Returns:
         dict: File upload information
     """
-<<<<<<< HEAD
-    file_id = str(uuid.uuid4())  # Create a unique ID for the file
-    
-    # Read file content into memory
-    file_content = await file.read()
-    
-    # Trigger Celery task with file content
-    task = upload_file_task.apply_async(args=[file_id, file.filename, file_content])
-<<<<<<< HEAD
-=======
     if file is not None:
         file_id = str(uuid.uuid4())  # Create a unique ID for the file
         
@@ -99,7 +63,6 @@ async def upload_file(video: Optional[str] = Form(None), file: Optional[UploadFi
         
         # Trigger Celery task with file content
         task = upload_file_task.apply_async(args=[file_id, file.filename, file_content])
->>>>>>> 933d357 (Added DOCX and Flash Cards implementations)
 
         return_obj = {"filename": file.filename, "file_id": file_id, "task_id": task.id}
 
@@ -109,13 +72,6 @@ async def upload_file(video: Optional[str] = Form(None), file: Optional[UploadFi
         
         return return_obj
     
-<<<<<<< HEAD
-    return return_obj
-=======
-    
-    return {"filename": file.filename, "file_id": file_id, "task_id": task.id}
->>>>>>> 143d6af (Initial Python service commit)
-=======
     elif video is not None:
         # Flash cards creation logic (replace with your function)
         try:
@@ -132,7 +88,6 @@ async def upload_file(video: Optional[str] = Form(None), file: Optional[UploadFi
         return return_obj
     
 
->>>>>>> 933d357 (Added DOCX and Flash Cards implementations)
 
 @router.post("/get_video_uri")
 async def get_video_uri_route(request: UriRequest):

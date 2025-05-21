@@ -20,9 +20,9 @@ package mk.ukim.finki.coursehelper.dto;
 import java.util.List;
 
 public record MessageDTO(
-        String role,
-        String content,
-        VideoDTO video,
-        List<String> toolCalls,
-        List<String> toolResults
-) {}
+                String role,
+                String content,
+                Video video,
+                List<String> toolCalls,
+                List<String> toolResults) {
+}

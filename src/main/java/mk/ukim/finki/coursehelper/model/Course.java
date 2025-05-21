@@ -18,54 +18,67 @@ public class Course {
 
     private String course_name;
 
-    //private String select_type_of_material;
+    // private String select_type_of_material;
 
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-//    private List<File> files = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-//    private List<VideoLink> videos = new ArrayList<>();
+    // @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    // private List<File> files = new ArrayList<>();
+    //
+    // @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    // private List<VideoLink> videos = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Source> sources = new ArrayList<>();
 
-    public Course() {}
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ConversationHistory> conversationHistories = new ArrayList<>();
 
-    public Long getId() { return id; }
+    public Course() {
+    }
 
-    //public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public User getUser() { return user; }
+    // public void setId(Long id) { this.id = id; }
 
-    public void setUser(User user) { this.user = user; }
+    public User getUser() {
+        return user;
+    }
 
-    public String getCourse_name() { return course_name; }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public void setCourse_name(String course_name) { this.course_name = course_name; }
+    public String getCourse_name() {
+        return course_name;
+    }
 
-//    public String getSelect_type_of_material() { return select_type_of_material; }
-//
-//    public void setSelect_type_of_material(String select_type_of_material) {
-//        this.select_type_of_material = select_type_of_material;
-//    }
+    public void setCourse_name(String course_name) {
+        this.course_name = course_name;
+    }
 
+    // public String getSelect_type_of_material() { return select_type_of_material;
+    // }
+    //
+    // public void setSelect_type_of_material(String select_type_of_material) {
+    // this.select_type_of_material = select_type_of_material;
+    // }
 
-//    public List<File> getFiles() {
-//        return files;
-//    }
-//
-//    public void setFiles(List<File> files) {
-//        this.files = files;
-//    }
-//
-//    public List<VideoLink> getVideos() {
-//        return videos;
-//    }
-//
-//    public void setVideos(List<VideoLink> videos) {
-//        this.videos = videos;
-//    }
-
+    // public List<File> getFiles() {
+    // return files;
+    // }
+    //
+    // public void setFiles(List<File> files) {
+    // this.files = files;
+    // }
+    //
+    // public List<VideoLink> getVideos() {
+    // return videos;
+    // }
+    //
+    // public void setVideos(List<VideoLink> videos) {
+    // this.videos = videos;
+    // }
 
     public void setId(Long id) {
         this.id = id;

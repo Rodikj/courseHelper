@@ -1,16 +1,10 @@
 from celery_config import celery_app
 from app.models.request import AIRequest, UriRequest
 from app.services.provider_service import get_ai_response, upload_file_to_gemini
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 from app.services.flash_card_service import create_flash_cards_service
->>>>>>> 933d357 (Added DOCX and Flash Cards implementations)
 from app.services import parser_service, summarisation_service, ingestion_service
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai.embeddings import GoogleGenerativeAIEmbeddings
-=======
->>>>>>> 143d6af (Initial Python service commit)
 import shutil
 from app.core.config_settings import get_settings
 import os
@@ -21,10 +15,7 @@ from google import genai
 import asyncio
 from app.utils.time_util import convert_seconds_to_minutes
 import time
-<<<<<<< HEAD
 from typing import Optional
-=======
->>>>>>> 143d6af (Initial Python service commit)
 
 settings = get_settings()
 
@@ -69,7 +60,6 @@ def create_video_uri_using_gemini_task(request_data: dict):
 
     response = upload_file_to_gemini(request)
 
-<<<<<<< HEAD
     return response if isinstance(response, dict) else request.video.model_dump()
 
 @celery_app.task(name = "parse_summarize_ingest_pdf")
@@ -128,13 +118,6 @@ def parse_summarize_ingest_pdf_task(file_id: str,
                                         images=summarised_images,
                                         qdrant_collection_name=file_id,
                                         )
-<<<<<<< HEAD
-    
-    return {"qdrant_collection_name": file_id}
-=======
-    return response if isinstance(response, dict) else request.video.model_dump()
->>>>>>> 143d6af (Initial Python service commit)
-=======
     flash_cards = create_flash_cards_service(collection_name=file_id, api_key=api_key)
     return {"qdrant_collection_name": file_id, "flash_cards": flash_cards.to_json_serializable() if isinstance(flash_cards, FlashCardList) else flash_cards}
 
@@ -149,4 +132,3 @@ def create_flash_cards_task(api_key: str, qdrant_collection_name: Optional[str] 
     else:
         return {"error": "No collection name or video provided."}
     return flash_cards if isinstance(flash_cards, dict) else flash_cards.model_dump()
->>>>>>> 933d357 (Added DOCX and Flash Cards implementations)
