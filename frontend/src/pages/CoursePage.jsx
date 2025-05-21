@@ -136,18 +136,18 @@ const CoursePage = () => {
     }
   };
 
-  const handleAddTextSource = () => {
-    const text = prompt("Enter or paste text content:");
-    if (text) {
-      const newSource = {
-        id: Date.now(),
-        name: 'Text Source',
-        type: 'text',
-        content: text
-      };
-      setSources([...sources, newSource]);
-    }
-  };
+  // const handleAddTextSource = () => {
+  //   const text = prompt("Enter or paste text content:");
+  //   if (text) {
+  //     const newSource = {
+  //       id: Date.now(),
+  //       name: 'Text Source',
+  //       type: 'text',
+  //       content: text
+  //     };
+  //     setSources([...sources, newSource]);
+  //   }
+  // };
 
   const handleSendMessage = (message) => {
     if (!message.trim()) return;

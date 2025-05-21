@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
-import { FaYoutube } from 'react-icons/fa';
+import { FaFilePdf, FaFileWord, FaFileImage, FaFileAlt, FaYoutube, FaFile } from 'react-icons/fa';
 
 const SourcesSection = ({ sources, onAddSource, onDeleteSource }) => {
   const [expandedSourceId, setExpandedSourceId] = useState(null);
 
-  const getSourceIcon = (type, ytId) => {
+  const getSourceIcon = (fileName = '', ytId) => {
     if (ytId) {
       return <FaYoutube className="text-red-500" />;
     }
-    
-    switch(type) {
-      case 'pdf':
-        return '📄';
-      case 'youtube':
-        return '🌐';
-      case 'text':
-        return '📝';
-      default:
-        return '📄';
+  
+    const lowerName = fileName.toLowerCase();
+  
+    if (lowerName.endsWith('.pdf')) {
+      return <FaFilePdf className="text-red-500" />;
+    } else if (lowerName.endsWith('.doc') || lowerName.endsWith('.docx')) {
+      return <FaFileWord className="text-blue-500" />;
+    } else if (lowerName.endsWith('.png') || lowerName.endsWith('.jpg') || lowerName.endsWith('.jpeg')) {
+      return <FaFileImage className="text-green-500" />;
+    } else if (lowerName.endsWith('.txt')) {
+      return <FaFileAlt className="text-gray-500" />;
+    } else {
+      return <FaYoutube className='text-red-500' />;
     }
   };
 
@@ -78,7 +81,7 @@ const SourcesSection = ({ sources, onAddSource, onDeleteSource }) => {
               className={`bg-white border border-gray-200 hover:border-blue-300 p-3 rounded-lg mb-2 flex items-center cursor-pointer ${expandedSourceId === source.id ? 'border-blue-500' : ''}`}
               onClick={() => toggleSourceExpand(source.id)}
             >
-              <span className="mr-2">{getSourceIcon(source.type, source.ytId)}</span>
+              <span className="mr-2">{getSourceIcon(source.name, source.ytId)}</span>
               <span className="flex-1 truncate">{source.name}</span>
               <button
                 onClick={(e) => {

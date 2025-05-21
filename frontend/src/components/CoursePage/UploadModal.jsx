@@ -156,7 +156,7 @@ const UploadModal = ({
       </div>
 
       {/* Source options */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
         {/* Link Box */}
         <div
           onClick={() => setCurrentView('youtube')}
@@ -174,7 +174,7 @@ const UploadModal = ({
         </div>
 
         {/* Paste Text Box */}
-        <div
+        {/* <div
           onClick={() => setCurrentView('text')}
           className="border-2 border-dashed border-gray-300 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition"
         >
@@ -187,7 +187,7 @@ const UploadModal = ({
           <span className="text-xs text-white bg-[#A3A3A3] px-2 py-1 rounded">
             Copied text
           </span>
-        </div>
+        </div> */}
       </div>
     </>
   );
